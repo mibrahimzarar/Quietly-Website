@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Quietly IDE — AI Coding. Completely Offline.",
+  title: "Quietly — AI IDE & Standalone Chat.",
   description:
     "Quietly is a private, local AI pair-programmer that runs entirely on your machine. No cloud. No telemetry. Your code never leaves your machine.",
   keywords: [

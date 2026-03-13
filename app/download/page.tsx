@@ -6,19 +6,14 @@ import {
   Check,
   Shield,
   WifiOff,
-  Cpu,
   Sparkles,
   ArrowLeft,
   Zap,
   Heart,
-  Monitor,
   Apple,
-  ChevronDown,
   Terminal,
   Copy,
   CheckCheck,
-  HardDrive,
-  Lock,
   Package,
   Loader2,
 } from "lucide-react";
@@ -28,7 +23,17 @@ import { useEffect, useState } from "react";
 
 // ── GitHub Releases (proxied via API route) ─────────────────────────
 const GH_REPO = "mibrahimzarar/Quietly";
-const RELEASES_FALLBACK = `https://github.com/${GH_REPO}/releases/latest`;
+const FALLBACK_TAG = "v1.0.3";
+const DL_BASE = `https://github.com/${GH_REPO}/releases/download/${FALLBACK_TAG}`;
+
+const FALLBACK_ASSETS: Assets = {
+  winX64: `${DL_BASE}/Quietly-Setup-${FALLBACK_TAG.slice(1)}.exe`,
+  winArm64: `${DL_BASE}/Quietly-Setup-${FALLBACK_TAG.slice(1)}-arm64.exe`,
+  macUniversal: `${DL_BASE}/Quietly-${FALLBACK_TAG.slice(1)}-universal.dmg`,
+  linuxAppImage: `${DL_BASE}/Quietly-${FALLBACK_TAG.slice(1)}.AppImage`,
+  linuxDeb: `${DL_BASE}/quietly_${FALLBACK_TAG.slice(1)}_amd64.deb`,
+  linuxRpm: `${DL_BASE}/quietly-${FALLBACK_TAG.slice(1)}.x86_64.rpm`,
+};
 
 interface Assets {
   winX64: string;
@@ -75,28 +80,21 @@ function useGitHubRelease() {
           }
         }
 
-        const hasAny = Object.keys(urls).length > 0;
-        setHasRelease(hasAny);
+        setHasRelease(true);
 
         setAssets({
-          winX64: urls.winX64 || RELEASES_FALLBACK,
-          winArm64: urls.winArm64 || RELEASES_FALLBACK,
-          macUniversal: urls.macUniversal || RELEASES_FALLBACK,
-          linuxAppImage: urls.linuxAppImage || RELEASES_FALLBACK,
-          linuxDeb: urls.linuxDeb || RELEASES_FALLBACK,
-          linuxRpm: urls.linuxRpm || RELEASES_FALLBACK,
+          winX64: urls.winX64 || FALLBACK_ASSETS.winX64,
+          winArm64: urls.winArm64 || FALLBACK_ASSETS.winArm64,
+          macUniversal: urls.macUniversal || FALLBACK_ASSETS.macUniversal,
+          linuxAppImage: urls.linuxAppImage || FALLBACK_ASSETS.linuxAppImage,
+          linuxDeb: urls.linuxDeb || FALLBACK_ASSETS.linuxDeb,
+          linuxRpm: urls.linuxRpm || FALLBACK_ASSETS.linuxRpm,
         });
       })
       .catch(() => {
-        setHasRelease(false);
-        setAssets({
-          winX64: RELEASES_FALLBACK,
-          winArm64: RELEASES_FALLBACK,
-          macUniversal: RELEASES_FALLBACK,
-          linuxAppImage: RELEASES_FALLBACK,
-          linuxDeb: RELEASES_FALLBACK,
-          linuxRpm: RELEASES_FALLBACK,
-        });
+        setHasRelease(true);
+        setVersion(FALLBACK_TAG);
+        setAssets(FALLBACK_ASSETS);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -237,17 +235,17 @@ export default function DownloadPage() {
 
   return (
     <main className="relative min-h-screen bg-[#05050a] text-white overflow-hidden">
-      {/* Backgrounds */}
-      <div className="absolute inset-0 bg-grid opacity-[0.15]" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-purple-600/[0.06] blur-[160px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-700/[0.04] blur-[120px] rounded-full pointer-events-none" />
+      {/* Backgrounds — brighter glows */}
+      <div className="absolute inset-0 bg-grid opacity-[0.2]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[700px] bg-purple-600/[0.12] blur-[160px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-700/[0.08] blur-[120px] rounded-full pointer-events-none" />
 
       {/* Nav */}
       <nav className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 py-6">
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm text-white/50 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to home
@@ -263,7 +261,7 @@ export default function DownloadPage() {
                 suppressHydrationWarning
               />
             </div>
-            <span className="font-semibold text-sm tracking-tight text-white/90">
+            <span className="font-semibold text-sm tracking-tight text-white">
               Quietly
             </span>
           </Link>
@@ -277,7 +275,7 @@ export default function DownloadPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/20 bg-purple-500/5 mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 mb-6">
             <Shield className="w-3 h-3 text-purple-400" />
             <span className="text-xs text-purple-300 font-medium">
               Your code never leaves your machine
@@ -289,7 +287,7 @@ export default function DownloadPage() {
             <span className="gradient-text">Quietly</span>
           </h1>
 
-          <p className="text-lg text-white/45 max-w-xl mx-auto mb-6 leading-relaxed">
+          <p className="text-lg text-white/70 max-w-xl mx-auto mb-6 leading-relaxed">
             One purchase. No subscriptions. No accounts.
             <br className="hidden sm:block" />
             Start coding with local AI in under two minutes.
@@ -300,16 +298,16 @@ export default function DownloadPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-flex items-center gap-4 px-6 py-3 rounded-2xl border border-purple-500/20 bg-purple-500/[0.06]"
+            className="inline-flex items-center gap-4 px-6 py-3 rounded-2xl border border-purple-500/30 bg-purple-500/10"
           >
             <div className="flex items-baseline gap-1.5">
               <span className="text-3xl font-bold text-white">$7</span>
-              <span className="text-sm text-white/35">one-time</span>
+              <span className="text-sm text-white/50">one-time</span>
             </div>
-            <div className="w-px h-8 bg-white/10" />
+            <div className="w-px h-8 bg-white/15" />
             <div className="text-left">
-              <div className="text-xs text-purple-300 font-medium">Full License</div>
-              <div className="text-[11px] text-white/30">All platforms included</div>
+              <div className="text-xs text-purple-300 font-semibold">Full License</div>
+              <div className="text-[11px] text-white/45">All platforms included</div>
             </div>
           </motion.div>
         </motion.div>
@@ -324,32 +322,32 @@ export default function DownloadPage() {
           className="flex flex-col items-center gap-3"
         >
           {loading ? (
-            <div className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-purple-500/20 text-white/50 font-semibold text-base">
+            <div className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-purple-500/20 text-white/70 font-semibold text-base">
               <Loader2 className="w-5 h-5 animate-spin" />
               <span>Fetching latest release…</span>
             </div>
           ) : !hasRelease ? (
             <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-3 px-10 py-4 rounded-2xl border border-purple-500/20 bg-purple-500/[0.06] text-white/60 font-semibold text-base">
+              <div className="flex items-center gap-3 px-10 py-4 rounded-2xl border border-purple-500/30 bg-purple-500/10 text-white/80 font-semibold text-base">
                 <Sparkles className="w-5 h-5 text-purple-400" />
                 <span>Coming Soon</span>
               </div>
-              <span className="text-xs text-white/25">First release is being prepared</span>
+              <span className="text-xs text-white/40">First release is being prepared</span>
             </div>
           ) : (
             <motion.a
               href={getPrimaryDownload()}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="group relative flex items-center gap-3 px-10 py-4 rounded-2xl btn-purple text-white font-semibold text-base shadow-lg shadow-purple-600/20"
+              className="group relative flex items-center gap-3 px-10 py-4 rounded-2xl btn-purple text-white font-semibold text-base shadow-lg shadow-purple-600/30"
             >
               <Download className="w-5 h-5 relative z-10" />
               <span className="relative z-10">{getPrimaryLabel()}</span>
             </motion.a>
           )}
-          <div className="flex items-center gap-4 text-xs text-white/25">
+          <div className="flex items-center gap-4 text-xs text-white/40">
             {version && (
-              <span className="text-purple-400/60 font-mono">{version}</span>
+              <span className="text-purple-400/80 font-mono">{version}</span>
             )}
             <div className="flex items-center gap-1.5">
               <WifiOff className="w-3 h-3" />
@@ -372,7 +370,7 @@ export default function DownloadPage() {
         >
           {/* Section header */}
           <div className="text-center mb-8">
-            <p className="text-xs text-white/25 uppercase tracking-[0.2em] font-medium">
+            <p className="text-xs text-white/40 uppercase tracking-[0.2em] font-semibold">
               Choose your platform
             </p>
           </div>
@@ -388,14 +386,14 @@ export default function DownloadPage() {
                   onClick={() => setSelectedOS(platform.id)}
                   className={`relative flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
                     isActive
-                      ? "text-white bg-purple-500/15 border border-purple-500/30 shadow-lg shadow-purple-500/10"
-                      : "text-white/40 hover:text-white/70 border border-transparent hover:border-white/[0.08] hover:bg-white/[0.03]"
+                      ? "text-white bg-purple-500/20 border border-purple-500/40 shadow-lg shadow-purple-500/15"
+                      : "text-white/55 hover:text-white/80 border border-white/[0.08] hover:border-white/[0.15] hover:bg-white/[0.05]"
                   }`}
                 >
                   <Icon className={`w-4 h-4 ${isActive ? "text-purple-400" : ""}`} />
                   <span>{platform.name}</span>
                   {os === platform.id && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-medium">
+                    <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500/25 text-purple-300 font-semibold">
                       Detected
                     </span>
                   )}
@@ -413,18 +411,18 @@ export default function DownloadPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.3 }}
-              className="rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden"
+              className="rounded-2xl border border-white/[0.1] bg-white/[0.03] overflow-hidden"
             >
               {/* Platform header */}
-              <div className="px-8 py-6 border-b border-white/[0.04] flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+              <div className="px-8 py-6 border-b border-white/[0.08] flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center">
                   <activePlatform.icon className="w-6 h-6 text-purple-400" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white">
                     {activePlatform.name}
                   </h3>
-                  <p className="text-sm text-white/35">{activePlatform.description}</p>
+                  <p className="text-sm text-white/55">{activePlatform.description}</p>
                 </div>
               </div>
 
@@ -439,41 +437,41 @@ export default function DownloadPage() {
                     transition={{ delay: i * 0.08 }}
                     className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-200 ${
                       dl.recommended
-                        ? "border-purple-500/20 bg-purple-500/[0.04] hover:bg-purple-500/[0.08] hover:border-purple-500/30"
-                        : "border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04] hover:border-white/[0.1]"
+                        ? "border-purple-500/30 bg-purple-500/[0.08] hover:bg-purple-500/[0.14] hover:border-purple-500/40"
+                        : "border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15]"
                     }`}
                   >
                     <div className="flex items-center gap-4">
                       <div
                         className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                           dl.recommended
-                            ? "bg-purple-500/15"
-                            : "bg-white/[0.04]"
+                            ? "bg-purple-500/20"
+                            : "bg-white/[0.06]"
                         }`}
                       >
                         <Package
                           className={`w-4 h-4 ${
-                            dl.recommended ? "text-purple-400" : "text-white/40"
+                            dl.recommended ? "text-purple-400" : "text-white/50"
                           }`}
                         />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-white/80 group-hover:text-white transition-colors">
+                          <span className="text-sm font-medium text-white/90 group-hover:text-white transition-colors">
                             {dl.label}
                           </span>
                           {dl.recommended && (
-                            <span className="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-semibold uppercase tracking-wider">
+                            <span className="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/25 text-purple-300 font-semibold uppercase tracking-wider">
                               Recommended
                             </span>
                           )}
                         </div>
-                        <span className="text-xs text-white/25 font-mono">{dl.ext}</span>
+                        <span className="text-xs text-white/40 font-mono">{dl.ext}</span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-purple-400/70 group-hover:text-purple-300 transition-colors">
+                    <div className="flex items-center gap-2 text-sm text-purple-400 group-hover:text-purple-300 transition-colors">
                       <Download className="w-4 h-4" />
-                      <span className="hidden sm:inline">Download</span>
+                      <span className="hidden sm:inline font-medium">Download</span>
                     </div>
                   </motion.a>
                 ))}
@@ -484,21 +482,21 @@ export default function DownloadPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25 }}
-                    className="mt-4 pt-4 border-t border-white/[0.05] space-y-4"
+                    className="mt-4 pt-4 border-t border-white/[0.08] space-y-4"
                   >
                     {/* Universal install script */}
                     <div>
                       <div className="flex items-center gap-2 mb-3">
-                        <Terminal className="w-3.5 h-3.5 text-white/30" />
-                        <span className="text-xs text-white/30 font-medium">Quick install (Ubuntu, Debian, Fedora & more)</span>
+                        <Terminal className="w-3.5 h-3.5 text-white/50" />
+                        <span className="text-xs text-white/50 font-medium">Quick install (Ubuntu, Debian, Fedora & more)</span>
                       </div>
-                      <div className="flex items-center gap-3 bg-[#0a0a14] rounded-xl px-5 py-3.5 border border-white/[0.06] group">
-                        <code className="text-xs font-mono text-green-400/80 flex-1 overflow-x-auto whitespace-nowrap">
+                      <div className="flex items-center gap-3 bg-[#0c0c18] rounded-xl px-5 py-3.5 border border-white/[0.1] group">
+                        <code className="text-xs font-mono text-green-400 flex-1 overflow-x-auto whitespace-nowrap">
                           curl -fsSL https://quietlycode.netlify.app/install.sh | bash
                         </code>
                         <button
                           onClick={() => handleCopy("curl -fsSL https://quietlycode.netlify.app/install.sh | bash", "install")}
-                          className="flex items-center gap-1.5 text-[11px] text-white/30 hover:text-white/60 border border-white/[0.08] hover:border-white/[0.15] rounded-lg px-3 py-1.5 transition-all shrink-0"
+                          className="flex items-center gap-1.5 text-[11px] text-white/50 hover:text-white/80 border border-white/[0.12] hover:border-white/[0.2] rounded-lg px-3 py-1.5 transition-all shrink-0"
                         >
                           {copied === "install" ? (
                             <>
@@ -514,7 +512,6 @@ export default function DownloadPage() {
                         </button>
                       </div>
                     </div>
-
                   </motion.div>
                 )}
               </div>
@@ -528,9 +525,9 @@ export default function DownloadPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          className="mt-12 rounded-2xl border border-white/[0.06] bg-white/[0.02] p-8"
+          className="mt-12 rounded-2xl border border-white/[0.1] bg-white/[0.03] p-8"
         >
-          <h3 className="text-sm font-semibold text-white/60 uppercase tracking-[0.15em] text-center mb-8">
+          <h3 className="text-sm font-semibold text-white/70 uppercase tracking-[0.15em] text-center mb-8">
             Everything included
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 max-w-2xl mx-auto">
@@ -542,10 +539,10 @@ export default function DownloadPage() {
                 transition={{ delay: 0.55 + i * 0.04 }}
                 className="flex items-center gap-3"
               >
-                <div className="w-5 h-5 rounded-full bg-purple-500/15 flex items-center justify-center shrink-0">
+                <div className="w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center shrink-0">
                   <Check className="w-3 h-3 text-purple-400" />
                 </div>
-                <span className="text-sm text-white/50">{feature}</span>
+                <span className="text-sm text-white/70">{feature}</span>
               </motion.div>
             ))}
           </div>
@@ -558,34 +555,34 @@ export default function DownloadPage() {
           transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-8"
         >
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 py-8 px-6 rounded-2xl border border-white/[0.04] bg-white/[0.01]">
-            <div className="flex items-center gap-3 text-white/30">
-              <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center">
-                <Shield className="w-4 h-4 text-purple-400/70" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10 py-8 px-6 rounded-2xl border border-white/[0.08] bg-white/[0.02]">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-purple-500/15 flex items-center justify-center">
+                <Shield className="w-4 h-4 text-purple-400" />
               </div>
               <div>
-                <div className="text-sm font-medium text-white/50">Privacy Guaranteed</div>
-                <div className="text-xs text-white/20">All AI runs locally</div>
+                <div className="text-sm font-medium text-white/75">Privacy Guaranteed</div>
+                <div className="text-xs text-white/40">All AI runs locally</div>
               </div>
             </div>
-            <div className="hidden sm:block w-px h-10 bg-white/[0.06]" />
-            <div className="flex items-center gap-3 text-white/30">
-              <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center">
-                <WifiOff className="w-4 h-4 text-purple-400/70" />
+            <div className="hidden sm:block w-px h-10 bg-white/[0.1]" />
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-purple-500/15 flex items-center justify-center">
+                <WifiOff className="w-4 h-4 text-purple-400" />
               </div>
               <div>
-                <div className="text-sm font-medium text-white/50">No Internet Required</div>
-                <div className="text-xs text-white/20">Works completely offline</div>
+                <div className="text-sm font-medium text-white/75">No Internet Required</div>
+                <div className="text-xs text-white/40">Works completely offline</div>
               </div>
             </div>
-            <div className="hidden sm:block w-px h-10 bg-white/[0.06]" />
-            <div className="flex items-center gap-3 text-white/30">
-              <div className="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-purple-400/70" />
+            <div className="hidden sm:block w-px h-10 bg-white/[0.1]" />
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-purple-500/15 flex items-center justify-center">
+                <Sparkles className="w-4 h-4 text-purple-400" />
               </div>
               <div>
-                <div className="text-sm font-medium text-white/50">Lifetime Updates</div>
-                <div className="text-xs text-white/20">Free forever</div>
+                <div className="text-sm font-medium text-white/75">Lifetime Updates</div>
+                <div className="text-xs text-white/40">Free forever</div>
               </div>
             </div>
           </div>
@@ -593,12 +590,12 @@ export default function DownloadPage() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/[0.04] py-6">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/20">
+      <footer className="relative z-10 border-t border-white/[0.08] py-6">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/35">
           <p>&copy; 2026 Quietly. All rights reserved.</p>
           <div className="flex items-center gap-1.5">
             <span>Built with</span>
-            <Heart className="w-3 h-3 text-purple-500/50 fill-purple-500/35" />
+            <Heart className="w-3 h-3 text-purple-500/70 fill-purple-500/50" />
             <span>for developers who value privacy</span>
           </div>
         </div>
