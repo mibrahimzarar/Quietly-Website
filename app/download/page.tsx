@@ -20,23 +20,83 @@ import {
   HardDrive,
   Lock,
   Package,
+  Loader2,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-// ── Release server ──────────────────────────────────────────────────
-const RELEASES = "https://releases.quietlycode.app/latest";
-const V = "VERSION_PLACEHOLDER";
+// ── GitHub Releases API ─────────────────────────────────────────────
+const GH_REPO = "mibrahimzarar/Quietly";
+const GH_LATEST_API = `https://api.github.com/repos/${GH_REPO}/releases/latest`;
 
-const ASSETS = {
-  winX64: `${RELEASES}/QuietlyCode-Setup-${V}.exe`,
-  winArm64: `${RELEASES}/QuietlyCode-Setup-${V}-arm64.exe`,
-  macUniversal: `${RELEASES}/QuietlyCode-${V}-universal.dmg`,
-  linuxAppImage: `${RELEASES}/QuietlyCode-${V}.AppImage`,
-  linuxDeb: `${RELEASES}/QuietlyCode-${V}.deb`,
-  linuxRpm: `${RELEASES}/QuietlyCode-${V}.rpm`,
-};
+interface Assets {
+  winX64: string;
+  winArm64: string;
+  macUniversal: string;
+  linuxAppImage: string;
+  linuxDeb: string;
+  linuxRpm: string;
+}
+
+function useGitHubRelease() {
+  const [assets, setAssets] = useState<Assets | null>(null);
+  const [version, setVersion] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(GH_LATEST_API)
+      .then((res) => res.json())
+      .then((release) => {
+        const tag = release.tag_name || "";
+        setVersion(tag);
+
+        const urls: Record<string, string> = {};
+        for (const asset of release.assets || []) {
+          const name: string = asset.name;
+          const url: string = asset.browser_download_url;
+
+          if (name.endsWith(".exe") && name.includes("arm64")) {
+            urls.winArm64 = url;
+          } else if (name.endsWith(".exe")) {
+            urls.winX64 = url;
+          } else if (name.endsWith(".dmg")) {
+            urls.macUniversal = url;
+          } else if (name.endsWith(".AppImage")) {
+            urls.linuxAppImage = url;
+          } else if (name.endsWith(".deb")) {
+            urls.linuxDeb = url;
+          } else if (name.endsWith(".rpm")) {
+            urls.linuxRpm = url;
+          }
+        }
+
+        setAssets({
+          winX64: urls.winX64 || "#",
+          winArm64: urls.winArm64 || "#",
+          macUniversal: urls.macUniversal || "#",
+          linuxAppImage: urls.linuxAppImage || "#",
+          linuxDeb: urls.linuxDeb || "#",
+          linuxRpm: urls.linuxRpm || "#",
+        });
+      })
+      .catch(() => {
+        // Fallback: direct link to GitHub releases page
+        const fallback = `https://github.com/${GH_REPO}/releases/latest`;
+        setAssets({
+          winX64: fallback,
+          winArm64: fallback,
+          macUniversal: fallback,
+          linuxAppImage: fallback,
+          linuxDeb: fallback,
+          linuxRpm: fallback,
+        });
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { assets, version, loading };
+}
 
 type OS = "windows" | "macos" | "linux" | "unknown";
 
@@ -99,41 +159,44 @@ const included = [
   "Custom model fine-tuning support",
 ];
 
-const platforms = [
-  {
-    id: "windows" as OS,
-    name: "Windows",
-    icon: WindowsIcon,
-    description: "Windows 10 / 11",
-    downloads: [
-      { label: "Installer (x64)", ext: ".exe", href: ASSETS.winX64, recommended: true },
-      { label: "Installer (ARM64)", ext: ".exe", href: ASSETS.winArm64, recommended: false },
-    ],
-  },
-  {
-    id: "macos" as OS,
-    name: "macOS",
-    icon: Apple,
-    description: "macOS 12+ (Monterey and later)",
-    downloads: [
-      { label: "Universal (Intel + Apple Silicon)", ext: ".dmg", href: ASSETS.macUniversal, recommended: true },
-    ],
-  },
-  {
-    id: "linux" as OS,
-    name: "Linux",
-    icon: LinuxIcon,
-    description: "Ubuntu, Debian, Fedora, Arch & more",
-    downloads: [
-      { label: "AppImage (Universal)", ext: ".AppImage", href: ASSETS.linuxAppImage, recommended: true },
-      { label: "Ubuntu / Debian", ext: ".deb", href: ASSETS.linuxDeb, recommended: false },
-      { label: "Fedora / RHEL", ext: ".rpm", href: ASSETS.linuxRpm, recommended: false },
-    ],
-  },
-];
+function buildPlatforms(assets: Assets) {
+  return [
+    {
+      id: "windows" as OS,
+      name: "Windows",
+      icon: WindowsIcon,
+      description: "Windows 10 / 11",
+      downloads: [
+        { label: "Installer (x64)", ext: ".exe", href: assets.winX64, recommended: true },
+        { label: "Installer (ARM64)", ext: ".exe", href: assets.winArm64, recommended: false },
+      ],
+    },
+    {
+      id: "macos" as OS,
+      name: "macOS",
+      icon: Apple,
+      description: "macOS 12+ (Monterey and later)",
+      downloads: [
+        { label: "Universal (Intel + Apple Silicon)", ext: ".dmg", href: assets.macUniversal, recommended: true },
+      ],
+    },
+    {
+      id: "linux" as OS,
+      name: "Linux",
+      icon: LinuxIcon,
+      description: "Ubuntu, Debian, Fedora, Arch & more",
+      downloads: [
+        { label: "AppImage (Universal)", ext: ".AppImage", href: assets.linuxAppImage, recommended: true },
+        { label: "Ubuntu / Debian", ext: ".deb", href: assets.linuxDeb, recommended: false },
+        { label: "Fedora / RHEL", ext: ".rpm", href: assets.linuxRpm, recommended: false },
+      ],
+    },
+  ];
+}
 
 export default function DownloadPage() {
   const { os, arch } = useDetectedOS();
+  const { assets, version, loading } = useGitHubRelease();
   const [selectedOS, setSelectedOS] = useState<OS>("windows");
   const [copied, setCopied] = useState(false);
 
@@ -147,14 +210,16 @@ export default function DownloadPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const platforms = assets ? buildPlatforms(assets) : [];
   const activePlatform = platforms.find((p) => p.id === selectedOS) || platforms[0];
 
   // Determine primary download for detected OS
   const getPrimaryDownload = () => {
-    if (os === "windows") return arch === "arm64" ? ASSETS.winArm64 : ASSETS.winX64;
-    if (os === "macos") return ASSETS.macUniversal;
-    if (os === "linux") return ASSETS.linuxAppImage;
-    return ASSETS.winX64;
+    if (!assets) return "#";
+    if (os === "windows") return arch === "arm64" ? assets.winArm64 : assets.winX64;
+    if (os === "macos") return assets.macUniversal;
+    if (os === "linux") return assets.linuxAppImage;
+    return assets.winX64;
   };
 
   const getPrimaryLabel = () => {
@@ -252,17 +317,27 @@ export default function DownloadPage() {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="flex flex-col items-center gap-3"
         >
-          <motion.a
-            href={getPrimaryDownload()}
-            download
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="group relative flex items-center gap-3 px-10 py-4 rounded-2xl btn-purple text-white font-semibold text-base shadow-lg shadow-purple-600/20"
-          >
-            <Download className="w-5 h-5 relative z-10" />
-            <span className="relative z-10">{getPrimaryLabel()}</span>
-          </motion.a>
+          {loading ? (
+            <div className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-purple-500/20 text-white/50 font-semibold text-base">
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>Fetching latest release…</span>
+            </div>
+          ) : (
+            <motion.a
+              href={getPrimaryDownload()}
+              download
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="group relative flex items-center gap-3 px-10 py-4 rounded-2xl btn-purple text-white font-semibold text-base shadow-lg shadow-purple-600/20"
+            >
+              <Download className="w-5 h-5 relative z-10" />
+              <span className="relative z-10">{getPrimaryLabel()}</span>
+            </motion.a>
+          )}
           <div className="flex items-center gap-4 text-xs text-white/25">
+            {version && (
+              <span className="text-purple-400/60 font-mono">{version}</span>
+            )}
             <div className="flex items-center gap-1.5">
               <WifiOff className="w-3 h-3" />
               <span>Works offline</span>
@@ -317,6 +392,7 @@ export default function DownloadPage() {
           </div>
 
           {/* Active platform downloads */}
+          {!loading && activePlatform && (
           <AnimatePresence mode="wait">
             <motion.div
               key={selectedOS}
@@ -428,6 +504,7 @@ export default function DownloadPage() {
               </div>
             </motion.div>
           </AnimatePresence>
+          )}
         </motion.div>
 
         {/* What's included */}

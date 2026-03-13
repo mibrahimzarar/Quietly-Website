@@ -67,7 +67,7 @@ export default function IntelliBud() {
               IntelliBud Innovations
             </h3>
             <p className="text-white/40 text-sm max-w-[280px] leading-relaxed">
-              Building Tommorow's Software Solutions.
+              Building Tommorow&apos;s Software Solutions.
             </p>
             <a
               href="https://intellibud.org"
