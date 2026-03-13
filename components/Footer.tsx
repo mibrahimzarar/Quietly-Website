@@ -37,7 +37,7 @@ export default function Footer() {
                 <div className="relative w-8 h-8 rounded-lg overflow-hidden glow-purple-sm">
                   <Image
                     src="/images/logo.png"
-                    alt="QuietlyCode Logo"
+                    alt="Quietly Logo"
                     width={32}
                     height={32}
                     className="w-full h-full object-contain"
@@ -45,7 +45,7 @@ export default function Footer() {
                   />
                 </div>
                 <span className="font-semibold text-base tracking-tight text-white/90">
-                  Quietly<span className="text-purple-400">Code</span>
+                  Quietly
                 </span>
               </div>
 
@@ -88,7 +88,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/[0.05] py-5 flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 text-center">
           <p className="text-xs text-white/20">
-            © 2026 QuietlyCode. All rights reserved.
+            © 2026 Quietly. All rights reserved.
           </p>
 
           <div className="flex items-center justify-center gap-1.5 text-xs text-white/20">

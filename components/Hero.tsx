@@ -99,7 +99,7 @@ function IDEMockup() {
           <div className="flex-1 flex items-center justify-center">
             <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-white/[0.04] border border-white/[0.06]">
               <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-              <span className="text-xs text-white/40 font-code">QuietlyCode IDE — main.py</span>
+              <span className="text-xs text-white/40 font-code">Quietly IDE — main.py</span>
             </div>
           </div>
           <div className="flex items-center gap-1">
@@ -222,7 +222,7 @@ function IDEMockup() {
 }
 
 function useHeroOS() {
-  const [label, setLabel] = useState("Download QuietlyCode");
+  const [label, setLabel] = useState("Download Quietly");
   useEffect(() => {
     const ua   = navigator.userAgent.toLowerCase();
     const plat = (navigator.platform || "").toLowerCase();
@@ -278,7 +278,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          QuietlyCode is a private AI pair-programmer that runs entirely on your machine.{" "}
+          Quietly is a private AI pair-programmer that runs entirely on your machine.{" "}
           <span className="text-white/70">No cloud. No telemetry. No compromise.</span>
         </motion.p>
 

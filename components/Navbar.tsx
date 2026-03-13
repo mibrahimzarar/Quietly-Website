@@ -46,7 +46,7 @@ export default function Navbar() {
                 <div className="relative w-8 h-8 rounded-lg overflow-hidden glow-purple-sm">
                   <Image
                     src="/images/logo.png"
-                    alt="QuietlyCode Logo"
+                    alt="Quietly Logo"
                     width={32}
                     height={32}
                     className="w-full h-full object-contain"
@@ -56,7 +56,7 @@ export default function Navbar() {
                 <div className="absolute inset-0 rounded-lg bg-purple-500/10 blur-md group-hover:blur-lg transition-all" />
               </div>
               <span className="font-semibold text-[15px] tracking-tight text-white/90">
-                Quietly<span className="text-purple-400">Code</span>
+                Quietly
               </span>
             </motion.a>
 

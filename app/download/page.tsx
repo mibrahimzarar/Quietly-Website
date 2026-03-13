@@ -26,9 +26,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-// ── GitHub Releases API ─────────────────────────────────────────────
+// ── GitHub Releases (proxied via API route) ─────────────────────────
 const GH_REPO = "mibrahimzarar/Quietly";
-const GH_LATEST_API = `https://api.github.com/repos/${GH_REPO}/releases/latest`;
+const RELEASES_FALLBACK = `https://github.com/${GH_REPO}/releases/latest`;
 
 interface Assets {
   winX64: string;
@@ -43,10 +43,14 @@ function useGitHubRelease() {
   const [assets, setAssets] = useState<Assets | null>(null);
   const [version, setVersion] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [hasRelease, setHasRelease] = useState(false);
 
   useEffect(() => {
-    fetch(GH_LATEST_API)
-      .then((res) => res.json())
+    fetch("/api/releases")
+      .then((res) => {
+        if (!res.ok) throw new Error("No release");
+        return res.json();
+      })
       .then((release) => {
         const tag = release.tag_name || "";
         setVersion(tag);
@@ -71,31 +75,33 @@ function useGitHubRelease() {
           }
         }
 
+        const hasAny = Object.keys(urls).length > 0;
+        setHasRelease(hasAny);
+
         setAssets({
-          winX64: urls.winX64 || "#",
-          winArm64: urls.winArm64 || "#",
-          macUniversal: urls.macUniversal || "#",
-          linuxAppImage: urls.linuxAppImage || "#",
-          linuxDeb: urls.linuxDeb || "#",
-          linuxRpm: urls.linuxRpm || "#",
+          winX64: urls.winX64 || RELEASES_FALLBACK,
+          winArm64: urls.winArm64 || RELEASES_FALLBACK,
+          macUniversal: urls.macUniversal || RELEASES_FALLBACK,
+          linuxAppImage: urls.linuxAppImage || RELEASES_FALLBACK,
+          linuxDeb: urls.linuxDeb || RELEASES_FALLBACK,
+          linuxRpm: urls.linuxRpm || RELEASES_FALLBACK,
         });
       })
       .catch(() => {
-        // Fallback: direct link to GitHub releases page
-        const fallback = `https://github.com/${GH_REPO}/releases/latest`;
+        setHasRelease(false);
         setAssets({
-          winX64: fallback,
-          winArm64: fallback,
-          macUniversal: fallback,
-          linuxAppImage: fallback,
-          linuxDeb: fallback,
-          linuxRpm: fallback,
+          winX64: RELEASES_FALLBACK,
+          winArm64: RELEASES_FALLBACK,
+          macUniversal: RELEASES_FALLBACK,
+          linuxAppImage: RELEASES_FALLBACK,
+          linuxDeb: RELEASES_FALLBACK,
+          linuxRpm: RELEASES_FALLBACK,
         });
       })
       .finally(() => setLoading(false));
   }, []);
 
-  return { assets, version, loading };
+  return { assets, version, loading, hasRelease };
 }
 
 type OS = "windows" | "macos" | "linux" | "unknown";
@@ -196,18 +202,18 @@ function buildPlatforms(assets: Assets) {
 
 export default function DownloadPage() {
   const { os, arch } = useDetectedOS();
-  const { assets, version, loading } = useGitHubRelease();
+  const { assets, version, loading, hasRelease } = useGitHubRelease();
   const [selectedOS, setSelectedOS] = useState<OS>("windows");
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<string | null>(null);
 
   useEffect(() => {
     if (os !== "unknown") setSelectedOS(os);
   }, [os]);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText("curl -fsSL https://quietlycode.app/install.sh | bash");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopied(id);
+    setTimeout(() => setCopied(null), 2000);
   };
 
   const platforms = assets ? buildPlatforms(assets) : [];
@@ -226,7 +232,7 @@ export default function DownloadPage() {
     if (os === "windows") return `Download for Windows${arch === "arm64" ? " (ARM64)" : ""}`;
     if (os === "macos") return "Download for macOS";
     if (os === "linux") return "Download for Linux";
-    return "Download QuietlyCode";
+    return "Download Quietly";
   };
 
   return (
@@ -250,7 +256,7 @@ export default function DownloadPage() {
             <div className="relative w-7 h-7 rounded-lg overflow-hidden glow-purple-sm">
               <Image
                 src="/images/logo.png"
-                alt="QuietlyCode Logo"
+                alt="Quietly Logo"
                 width={28}
                 height={28}
                 className="w-full h-full object-contain"
@@ -258,7 +264,7 @@ export default function DownloadPage() {
               />
             </div>
             <span className="font-semibold text-sm tracking-tight text-white/90">
-              Quietly<span className="text-purple-400">Code</span>
+              Quietly
             </span>
           </Link>
         </div>
@@ -280,7 +286,7 @@ export default function DownloadPage() {
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4">
             <span className="text-white">Get </span>
-            <span className="gradient-text">QuietlyCode</span>
+            <span className="gradient-text">Quietly</span>
           </h1>
 
           <p className="text-lg text-white/45 max-w-xl mx-auto mb-6 leading-relaxed">
@@ -322,10 +328,17 @@ export default function DownloadPage() {
               <Loader2 className="w-5 h-5 animate-spin" />
               <span>Fetching latest release…</span>
             </div>
+          ) : !hasRelease ? (
+            <div className="flex flex-col items-center gap-2">
+              <div className="flex items-center gap-3 px-10 py-4 rounded-2xl border border-purple-500/20 bg-purple-500/[0.06] text-white/60 font-semibold text-base">
+                <Sparkles className="w-5 h-5 text-purple-400" />
+                <span>Coming Soon</span>
+              </div>
+              <span className="text-xs text-white/25">First release is being prepared</span>
+            </div>
           ) : (
             <motion.a
               href={getPrimaryDownload()}
-              download
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               className="group relative flex items-center gap-3 px-10 py-4 rounded-2xl btn-purple text-white font-semibold text-base shadow-lg shadow-purple-600/20"
@@ -421,7 +434,6 @@ export default function DownloadPage() {
                   <motion.a
                     key={dl.label}
                     href={dl.href}
-                    download
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.08 }}
@@ -472,33 +484,37 @@ export default function DownloadPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.25 }}
-                    className="mt-4 pt-4 border-t border-white/[0.05]"
+                    className="mt-4 pt-4 border-t border-white/[0.05] space-y-4"
                   >
-                    <div className="flex items-center gap-2 mb-3">
-                      <Terminal className="w-3.5 h-3.5 text-white/30" />
-                      <span className="text-xs text-white/30 font-medium">Quick install (all distros)</span>
+                    {/* Universal install script */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Terminal className="w-3.5 h-3.5 text-white/30" />
+                        <span className="text-xs text-white/30 font-medium">Quick install (Ubuntu, Debian, Fedora & more)</span>
+                      </div>
+                      <div className="flex items-center gap-3 bg-[#0a0a14] rounded-xl px-5 py-3.5 border border-white/[0.06] group">
+                        <code className="text-xs font-mono text-green-400/80 flex-1 overflow-x-auto whitespace-nowrap">
+                          curl -fsSL https://quietlycode.netlify.app/install.sh | bash
+                        </code>
+                        <button
+                          onClick={() => handleCopy("curl -fsSL https://quietlycode.netlify.app/install.sh | bash", "install")}
+                          className="flex items-center gap-1.5 text-[11px] text-white/30 hover:text-white/60 border border-white/[0.08] hover:border-white/[0.15] rounded-lg px-3 py-1.5 transition-all shrink-0"
+                        >
+                          {copied === "install" ? (
+                            <>
+                              <CheckCheck className="w-3 h-3 text-green-400" />
+                              <span className="text-green-400">Copied</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3" />
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3 bg-[#0a0a14] rounded-xl px-5 py-3.5 border border-white/[0.06] group">
-                      <code className="text-xs font-mono text-green-400/80 flex-1 overflow-x-auto whitespace-nowrap">
-                        curl -fsSL https://quietlycode.app/install.sh | bash
-                      </code>
-                      <button
-                        onClick={handleCopy}
-                        className="flex items-center gap-1.5 text-[11px] text-white/30 hover:text-white/60 border border-white/[0.08] hover:border-white/[0.15] rounded-lg px-3 py-1.5 transition-all shrink-0"
-                      >
-                        {copied ? (
-                          <>
-                            <CheckCheck className="w-3 h-3 text-green-400" />
-                            <span className="text-green-400">Copied</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3 h-3" />
-                            <span>Copy</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+
                   </motion.div>
                 )}
               </div>
@@ -579,7 +595,7 @@ export default function DownloadPage() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/[0.04] py-6">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/20">
-          <p>&copy; 2026 QuietlyCode. All rights reserved.</p>
+          <p>&copy; 2026 Quietly. All rights reserved.</p>
           <div className="flex items-center gap-1.5">
             <span>Built with</span>
             <Heart className="w-3 h-3 text-purple-500/50 fill-purple-500/35" />

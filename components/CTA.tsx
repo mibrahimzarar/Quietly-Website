@@ -69,7 +69,7 @@ export default function CTA() {
               className="btn-purple group relative flex items-center gap-3 px-8 py-4 rounded-2xl text-base font-semibold text-white"
             >
               <Download className="w-5 h-5 relative z-10" />
-              <span className="relative z-10">Download QuietlyCode</span>
+              <span className="relative z-10">Download Quietly</span>
               <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-200" />
               <div className="absolute inset-0 rounded-2xl glow-purple opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </motion.a>

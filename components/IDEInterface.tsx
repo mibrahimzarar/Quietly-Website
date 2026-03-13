@@ -85,7 +85,7 @@ const screens = [
     description: "Integrated terminal with full shell access. Run scripts, manage packages, all without leaving.",
     content: (
       <div className="flex flex-col h-full bg-[#030308] p-4 font-code text-xs">
-        <div className="text-white/20 text-[10px] mb-3">QuietlyCode Integrated Terminal — PowerShell</div>
+        <div className="text-white/20 text-[10px] mb-3">Quietly Integrated Terminal — PowerShell</div>
         <div className="space-y-1.5 text-[11px]">
           <div><span className="text-purple-400">PS</span> <span className="text-blue-400">~/project</span> <span className="text-white/60">&gt;</span> <span className="text-white/80">npm install</span></div>
           <div className="text-white/30">added 347 packages in 12.3s</div>

@@ -116,7 +116,7 @@ export default function Privacy() {
                 <span className="gradient-text">Your Machine.</span>
               </h2>
               <p className="text-white/50 text-lg mb-10 leading-relaxed">
-                In a world where every tool wants to send your data to the cloud, QuietlyCode is different. We built privacy in from the ground up — not as a feature, but as a foundation.
+                In a world where every tool wants to send your data to the cloud, Quietly is different. We built privacy in from the ground up — not as a feature, but as a foundation.
               </p>
             </motion.div>
 

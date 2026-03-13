@@ -1,0 +1,7 @@
+You need to do one thing in Netlify:
+
+Go to your Netlify site settings → Environment Variables → Add:
+
+Key: GH_RELEASES_TOKEN
+Value: A GitHub fine-grained personal access token with contents: read permission on the mibrahimzarar/Quietly repo
+To create the token: GitHub → Settings → Developer Settings → Fine-grained tokens → Generate → select only the Quietly repo → Repository permissions → Contents: Read-only.

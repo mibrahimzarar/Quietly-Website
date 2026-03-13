@@ -9,7 +9,7 @@ const steps = [
     icon: Download,
     title: "Download Installer",
     description: "Grab the installer for your OS — Windows .exe, macOS .dmg, or Linux AppImage. One file, no prerequisites.",
-    code: "QuietlyCode-Setup.exe / .dmg / .AppImage",
+    code: "Quietly-Setup.exe / .dmg / .AppImage",
     codeLabel: "~180 MB",
   },
   {
@@ -32,8 +32,8 @@ const steps = [
     number: "04",
     icon: Rocket,
     title: "Start Coding with AI",
-    description: "Launch QuietlyCode and start your first AI-assisted coding session. Fully offline from day one.",
-    code: "QuietlyCode.exe",
+    description: "Launch Quietly and start your first AI-assisted coding session. Fully offline from day one.",
+    code: "Quietly.exe",
     codeLabel: "Ready",
   },
 ];
@@ -150,7 +150,7 @@ export default function Installation() {
             className="btn-purple inline-flex items-center gap-2.5 px-8 py-4 rounded-xl text-base font-semibold text-white"
           >
             <Download className="w-4 h-4 relative z-10" />
-            <span className="relative z-10">Download QuietlyCode</span>
+            <span className="relative z-10">Download Quietly</span>
           </motion.a>
           <p className="text-white/30 text-xs mt-4">Free to use · Windows · macOS · Linux · No signup required</p>
         </motion.div>

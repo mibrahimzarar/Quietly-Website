@@ -69,7 +69,7 @@ export default function ProductDemo() {
             See it in action.
           </h2>
           <p className="text-white/50 text-lg max-w-lg mx-auto">
-            Watch QuietlyCode help you write, explain, and refactor code — entirely on your machine.
+            Watch Quietly help you write, explain, and refactor code — entirely on your machine.
           </p>
         </motion.div>
 
@@ -89,7 +89,7 @@ export default function ProductDemo() {
               </div>
               <div className="flex-1 flex justify-center">
                 <div className="flex items-center gap-2 px-4 py-1 rounded-md bg-white/[0.04] border border-white/[0.06] text-xs text-white/30 font-code">
-                  QuietlyCode IDE — Demo
+                  Quietly IDE — Demo
                 </div>
               </div>
               <div className="flex items-center gap-1 text-xs text-white/20">
@@ -238,7 +238,7 @@ export default function ProductDemo() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-center mt-8 text-white/40 text-sm"
         >
-          See QuietlyCode in action.{" "}
+          See Quietly in action.{" "}
           <span className="text-purple-400">Fully offline. Fully private.</span>
         </motion.p>
 
