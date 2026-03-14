@@ -23,16 +23,16 @@ import { useEffect, useState } from "react";
 
 // ── GitHub Releases (proxied via API route) ─────────────────────────
 const GH_REPO = "mibrahimzarar/Quietly";
-const FALLBACK_TAG = "v1.0.3";
+const FALLBACK_TAG = "v1.0.0";
 const DL_BASE = `https://github.com/${GH_REPO}/releases/download/${FALLBACK_TAG}`;
 
 const FALLBACK_ASSETS: Assets = {
-  winX64: `${DL_BASE}/Quietly-Setup-${FALLBACK_TAG.slice(1)}.exe`,
-  winArm64: `${DL_BASE}/Quietly-Setup-${FALLBACK_TAG.slice(1)}-arm64.exe`,
-  macUniversal: `${DL_BASE}/Quietly-${FALLBACK_TAG.slice(1)}-universal.dmg`,
-  linuxAppImage: `${DL_BASE}/Quietly-${FALLBACK_TAG.slice(1)}.AppImage`,
-  linuxDeb: `${DL_BASE}/quietly_${FALLBACK_TAG.slice(1)}_amd64.deb`,
-  linuxRpm: `${DL_BASE}/quietly-${FALLBACK_TAG.slice(1)}.x86_64.rpm`,
+  winX64: "",
+  winArm64: "",
+  macUniversal: "",
+  linuxAppImage: `${DL_BASE}/Quietly-1.0.0.AppImage`,
+  linuxDeb: `${DL_BASE}/quietlycode_1.0.0_amd64.deb`,
+  linuxRpm: `${DL_BASE}/quietlycode-1.0.0.x86_64.rpm`,
 };
 
 interface Assets {
@@ -219,11 +219,11 @@ export default function DownloadPage() {
 
   // Determine primary download for detected OS
   const getPrimaryDownload = () => {
-    if (!assets) return "#";
-    if (os === "windows") return arch === "arm64" ? assets.winArm64 : assets.winX64;
-    if (os === "macos") return assets.macUniversal;
-    if (os === "linux") return assets.linuxAppImage;
-    return assets.winX64;
+    if (!assets) return "";
+    if (os === "windows") return (arch === "arm64" ? assets.winArm64 : assets.winX64) || "";
+    if (os === "macos") return assets.macUniversal || "";
+    if (os === "linux") return assets.linuxAppImage || "";
+    return assets.winX64 || "";
   };
 
   const getPrimaryLabel = () => {
@@ -334,7 +334,7 @@ export default function DownloadPage() {
               </div>
               <span className="text-xs text-white/40">First release is being prepared</span>
             </div>
-          ) : (
+          ) : getPrimaryDownload() ? (
             <motion.a
               href={getPrimaryDownload()}
               whileHover={{ scale: 1.03 }}
@@ -344,6 +344,14 @@ export default function DownloadPage() {
               <Download className="w-5 h-5 relative z-10" />
               <span className="relative z-10">{getPrimaryLabel()}</span>
             </motion.a>
+          ) : (
+            <div className="flex flex-col items-center gap-2">
+              <div className="flex items-center gap-3 px-10 py-4 rounded-2xl border border-purple-500/30 bg-purple-500/10 text-white/80 font-semibold text-base">
+                <Sparkles className="w-5 h-5 text-purple-400" />
+                <span>{getPrimaryLabel()} — Coming Soon</span>
+              </div>
+              <span className="text-xs text-white/40">Check out Linux builds below</span>
+            </div>
           )}
           <div className="flex items-center gap-4 text-xs text-white/40">
             {version && (
@@ -428,53 +436,71 @@ export default function DownloadPage() {
 
               {/* Downloads list */}
               <div className="p-6 space-y-3">
-                {activePlatform.downloads.map((dl, i) => (
-                  <motion.a
-                    key={dl.label}
-                    href={dl.href}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.08 }}
-                    className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-200 ${
-                      dl.recommended
-                        ? "border-purple-500/30 bg-purple-500/[0.08] hover:bg-purple-500/[0.14] hover:border-purple-500/40"
-                        : "border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15]"
-                    }`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div
-                        className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                          dl.recommended
-                            ? "bg-purple-500/20"
-                            : "bg-white/[0.06]"
-                        }`}
-                      >
-                        <Package
-                          className={`w-4 h-4 ${
-                            dl.recommended ? "text-purple-400" : "text-white/50"
+                {activePlatform.downloads.map((dl, i) => {
+                  const available = !!dl.href;
+                  const Tag = available ? motion.a : motion.div;
+                  return (
+                    <Tag
+                      key={dl.label}
+                      {...(available ? { href: dl.href } : {})}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.08 }}
+                      className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-200 ${
+                        !available
+                          ? "border-white/[0.06] bg-white/[0.02] opacity-60 cursor-default"
+                          : dl.recommended
+                          ? "border-purple-500/30 bg-purple-500/[0.08] hover:bg-purple-500/[0.14] hover:border-purple-500/40"
+                          : "border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15]"
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div
+                          className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                            !available
+                              ? "bg-white/[0.04]"
+                              : dl.recommended
+                              ? "bg-purple-500/20"
+                              : "bg-white/[0.06]"
                           }`}
-                        />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-medium text-white/90 group-hover:text-white transition-colors">
-                            {dl.label}
-                          </span>
-                          {dl.recommended && (
-                            <span className="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/25 text-purple-300 font-semibold uppercase tracking-wider">
-                              Recommended
-                            </span>
-                          )}
+                        >
+                          <Package
+                            className={`w-4 h-4 ${
+                              !available
+                                ? "text-white/30"
+                                : dl.recommended
+                                ? "text-purple-400"
+                                : "text-white/50"
+                            }`}
+                          />
                         </div>
-                        <span className="text-xs text-white/40 font-mono">{dl.ext}</span>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className={`text-sm font-medium transition-colors ${
+                              available ? "text-white/90 group-hover:text-white" : "text-white/50"
+                            }`}>
+                              {dl.label}
+                            </span>
+                            {available && dl.recommended && (
+                              <span className="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/25 text-purple-300 font-semibold uppercase tracking-wider">
+                                Recommended
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-xs text-white/40 font-mono">{dl.ext}</span>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-purple-400 group-hover:text-purple-300 transition-colors">
-                      <Download className="w-4 h-4" />
-                      <span className="hidden sm:inline font-medium">Download</span>
-                    </div>
-                  </motion.a>
-                ))}
+                      {available ? (
+                        <div className="flex items-center gap-2 text-sm text-purple-400 group-hover:text-purple-300 transition-colors">
+                          <Download className="w-4 h-4" />
+                          <span className="hidden sm:inline font-medium">Download</span>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-white/35 font-medium">Coming Soon</span>
+                      )}
+                    </Tag>
+                  );
+                })}
 
                 {/* Linux quick install */}
                 {selectedOS === "linux" && (
@@ -499,6 +525,35 @@ export default function DownloadPage() {
                           className="flex items-center gap-1.5 text-[11px] text-white/50 hover:text-white/80 border border-white/[0.12] hover:border-white/[0.2] rounded-lg px-3 py-1.5 transition-all shrink-0"
                         >
                           {copied === "install" ? (
+                            <>
+                              <CheckCheck className="w-3 h-3 text-green-400" />
+                              <span className="text-green-400">Copied</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3" />
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Arch Linux */}
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Terminal className="w-3.5 h-3.5 text-white/50" />
+                        <span className="text-xs text-white/50 font-medium">Arch Linux (via PKGBUILD)</span>
+                      </div>
+                      <div className="flex items-center gap-3 bg-[#0c0c18] rounded-xl px-5 py-3.5 border border-white/[0.1] group">
+                        <code className="text-xs font-mono text-green-400 flex-1 overflow-x-auto whitespace-nowrap">
+                          curl -fsSL https://quietlycode.netlify.app/PKGBUILD -o PKGBUILD && makepkg -si
+                        </code>
+                        <button
+                          onClick={() => handleCopy("curl -fsSL https://quietlycode.netlify.app/PKGBUILD -o PKGBUILD && makepkg -si", "arch")}
+                          className="flex items-center gap-1.5 text-[11px] text-white/50 hover:text-white/80 border border-white/[0.12] hover:border-white/[0.2] rounded-lg px-3 py-1.5 transition-all shrink-0"
+                        >
+                          {copied === "arch" ? (
                             <>
                               <CheckCheck className="w-3 h-3 text-green-400" />
                               <span className="text-green-400">Copied</span>
