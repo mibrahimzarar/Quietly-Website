@@ -28,7 +28,6 @@ const DL_BASE = `https://github.com/${GH_REPO}/releases/download/${FALLBACK_TAG}
 
 const FALLBACK_ASSETS: Assets = {
   winX64: "",
-  winArm64: "",
   macUniversal: "",
   linuxAppImage: `${DL_BASE}/Quietly-1.0.0.AppImage`,
   linuxDeb: `${DL_BASE}/quietlycode_1.0.0_amd64.deb`,
@@ -37,7 +36,6 @@ const FALLBACK_ASSETS: Assets = {
 
 interface Assets {
   winX64: string;
-  winArm64: string;
   macUniversal: string;
   linuxAppImage: string;
   linuxDeb: string;
@@ -65,9 +63,7 @@ function useGitHubRelease() {
           const name: string = asset.name;
           const url: string = asset.browser_download_url;
 
-          if (name.endsWith(".exe") && name.includes("arm64")) {
-            urls.winArm64 = url;
-          } else if (name.endsWith(".exe")) {
+          if (name.endsWith(".exe")) {
             urls.winX64 = url;
           } else if (name.endsWith(".dmg")) {
             urls.macUniversal = url;
@@ -84,7 +80,6 @@ function useGitHubRelease() {
 
         setAssets({
           winX64: urls.winX64 || FALLBACK_ASSETS.winX64,
-          winArm64: urls.winArm64 || FALLBACK_ASSETS.winArm64,
           macUniversal: urls.macUniversal || FALLBACK_ASSETS.macUniversal,
           linuxAppImage: urls.linuxAppImage || FALLBACK_ASSETS.linuxAppImage,
           linuxDeb: urls.linuxDeb || FALLBACK_ASSETS.linuxDeb,
@@ -172,7 +167,6 @@ function buildPlatforms(assets: Assets) {
       description: "Windows 10 / 11",
       downloads: [
         { label: "Installer (x64)", ext: ".exe", href: assets.winX64, recommended: true },
-        { label: "Installer (ARM64)", ext: ".exe", href: assets.winArm64, recommended: false },
       ],
     },
     {
@@ -220,14 +214,14 @@ export default function DownloadPage() {
   // Determine primary download for detected OS
   const getPrimaryDownload = () => {
     if (!assets) return "";
-    if (os === "windows") return (arch === "arm64" ? assets.winArm64 : assets.winX64) || "";
+    if (os === "windows") return assets.winX64 || "";
     if (os === "macos") return assets.macUniversal || "";
     if (os === "linux") return assets.linuxAppImage || "";
     return assets.winX64 || "";
   };
 
   const getPrimaryLabel = () => {
-    if (os === "windows") return `Download for Windows${arch === "arm64" ? " (ARM64)" : ""}`;
+    if (os === "windows") return "Download for Windows";
     if (os === "macos") return "Download for macOS";
     if (os === "linux") return "Download for Linux";
     return "Download Quietly";

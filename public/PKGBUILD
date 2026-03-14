@@ -1,6 +1,6 @@
 # Maintainer: Ibrahim Zarar <mibrahimzarar@gmail.com>
 pkgname=quietlycode
-pkgver=1.0.4
+pkgver=1.0.6
 pkgrel=1
 pkgdesc="Offline-First Local AI IDE powered by llama.cpp and AirLLM"
 arch=('x86_64')
@@ -9,18 +9,18 @@ license=('custom')
 depends=('libnotify' 'libxtst' 'nss' 'libsecret' 'gtk3' 'libxss')
 options=(!strip)
 
-_gh="https://github.com/mibrahimzarar/Quietly/releases/download/v${pkgver}"
+_gh="https://github.com/mibrahimzarar/Quietly/releases/latest/download"
 
-source_x86_64=("${pkgname}-${pkgver}.AppImage::${_gh}/Quietly-${pkgver}.AppImage")
+source_x86_64=("Quietly.AppImage::${_gh}/Quietly-x64.AppImage")
 
 sha256sums_x86_64=('SKIP')
 
 prepare() {
-    chmod +x "${pkgname}-${pkgver}.AppImage"
+    chmod +x "Quietly.AppImage"
 }
 
 package() {
-    install -Dm755 "${srcdir}/${pkgname}-${pkgver}.AppImage" "${pkgdir}/opt/${pkgname}/Quietly.AppImage"
+    install -Dm755 "${srcdir}/Quietly.AppImage" "${pkgdir}/opt/${pkgname}/Quietly.AppImage"
 
     install -dm755 "${pkgdir}/usr/bin"
     cat > "${pkgdir}/usr/bin/${pkgname}" <<EOF
@@ -30,8 +30,8 @@ EOF
     chmod +x "${pkgdir}/usr/bin/${pkgname}"
 
     cd "${srcdir}"
-    ./"${pkgname}-${pkgver}.AppImage" --appimage-extract usr/share/icons 2>/dev/null || true
-    ./"${pkgname}-${pkgver}.AppImage" --appimage-extract quietlycode.png  2>/dev/null || true
+    ./Quietly.AppImage --appimage-extract usr/share/icons 2>/dev/null || true
+    ./Quietly.AppImage --appimage-extract quietlycode.png  2>/dev/null || true
 
     if [ -f "squashfs-root/quietlycode.png" ]; then
         install -Dm644 "squashfs-root/quietlycode.png" \
