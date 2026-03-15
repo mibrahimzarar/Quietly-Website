@@ -48,7 +48,7 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           <p className="text-xl text-white/50 leading-relaxed">
-            Quietly was explicitly built to respect your privacy. Here is exactly what we do (and don't) collect.
+            Quietly was explicitly built to respect your privacy. Here is exactly what we do (and don&apos;t) collect.
           </p>
         </div>
 
@@ -79,12 +79,12 @@ export default function PrivacyPolicy() {
             <li>We receive notifications from Lemon Squeezy regarding your order status (e.g., successful payment, your email, and the generated license key) so we can provide you access to the software.</li>
           </ul>
           <p className="text-white/70 leading-relaxed mb-6">
-            You can view Lemon Squeezy's privacy policy <a href="https://www.lemonsqueezy.com/privacy" className="text-purple-400 hover:text-purple-300 underline underline-offset-4" target="_blank" rel="noreferrer">here</a>.
+            You can view Lemon Squeezy&apos;s privacy policy <a href="https://www.lemonsqueezy.com/privacy" className="text-purple-400 hover:text-purple-300 underline underline-offset-4" target="_blank" rel="noreferrer">here</a>.
           </p>
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">4. License Verification</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            When you enter your license key on our download page, that key is sent securely to the Lemon Squeezy API for verification. Once verified, the download links are unlocked. The application itself does not require an ongoing internet connection to "phone home" or verify the license continuously.
+            When you enter your license key on our download page, that key is sent securely to the Lemon Squeezy API for verification. Once verified, the download links are unlocked. The application itself does not require an ongoing internet connection to &quot;phone home&quot; or verify the license continuously.
           </p>
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">5. Contacting Us</h2>

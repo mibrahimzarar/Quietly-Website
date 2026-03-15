@@ -55,7 +55,7 @@ export default function TermsOfService() {
         <div className="prose prose-invert prose-purple max-w-none">
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">1. Acceptance of Terms</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            By purchasing, downloading, or using the Quietly application (the "Software"), you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions of this agreement, you may not use the Software.
+            By purchasing, downloading, or using the Quietly application (the &quot;Software&quot;), you agree to be bound by these Terms of Service. If you do not agree to all the terms and conditions of this agreement, you may not use the Software.
           </p>
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">2. License Grant</h2>
@@ -72,7 +72,7 @@ export default function TermsOfService() {
             Quietly operates locally on your hardware. We do not remotely execute code or transmit your files. You acknowledge that AI models (including those downloaded via HuggingFace or otherwise) may produce inaccurate, incomplete, or inappropriate outputs.
           </p>
           <p className="text-white/70 leading-relaxed mb-6">
-            Quietly is provided "as is", without warranty of any kind. In no event shall the developers be held liable for any damages arising from the use of this software, including but not limited to loss of data or business interruption.
+            Quietly is provided &quot;as is&quot;, without warranty of any kind. In no event shall the developers be held liable for any damages arising from the use of this software, including but not limited to loss of data or business interruption.
           </p>
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">4. Governing Law</h2>

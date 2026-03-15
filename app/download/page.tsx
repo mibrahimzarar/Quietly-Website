@@ -293,7 +293,7 @@ function DownloadPageContent() {
         validateFromUrl();
       }
     }
-  }, [searchParams, isAuthorized]);
+  }, [searchParams, isAuthorized, validating]);
 
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -445,7 +445,7 @@ function DownloadPageContent() {
 
             <div className="mt-6 text-center">
               <Link href="/pricing" className="text-xs text-purple-400 hover:text-purple-300 transition-colors">
-                Don't have a license? Buy Quietly
+                Don&apos;t have a license? Buy Quietly
               </Link>
             </div>
           </motion.div>
