@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ProductDemo from "@/components/ProductDemo";
+import PoweredBy from "@/components/PoweredBy";
 import Features from "@/components/Features";
 import IDEInterface from "@/components/IDEInterface";
 import Privacy from "@/components/Privacy";
@@ -16,6 +17,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <ProductDemo />
+      <PoweredBy />
       <Features />
       <IDEInterface />
       <Privacy />
