@@ -6,10 +6,12 @@ import { Heart } from "lucide-react";
 
 const links = {
   Product: [
-    { label: "Download", href: "#download" },
-    { label: "Features", href: "#features" },
-    { label: "Demo", href: "#demo" },
-    { label: "System Requirements", href: "#requirements" },
+    { label: "Download", href: "/download" },
+    { label: "Features", href: "/#features" },
+  ],
+  Legal: [
+    { label: "Terms of Service", href: "/terms" },
+    { label: "Privacy Policy", href: "/privacy" },
   ],
 };
 

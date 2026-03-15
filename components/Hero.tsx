@@ -224,11 +224,11 @@ function IDEMockup() {
 function useHeroOS() {
   const [label, setLabel] = useState("Download Quietly");
   useEffect(() => {
-    const ua   = navigator.userAgent.toLowerCase();
+    const ua = navigator.userAgent.toLowerCase();
     const plat = (navigator.platform || "").toLowerCase();
-    if (plat.includes("mac") || ua.includes("mac"))         setLabel("Download for macOS");
+    if (plat.includes("mac") || ua.includes("mac")) setLabel("Download for macOS");
     else if (plat.includes("linux") || ua.includes("linux")) setLabel("Download for Linux");
-    else                                                      setLabel("Download for Windows");
+    else setLabel("Download for Windows");
   }, []);
   return label;
 }
@@ -291,7 +291,7 @@ export default function Hero() {
         >
           <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
             <Link
-              href="/download"
+              href="/pricing"
               className="btn-purple relative group flex items-center gap-2.5 px-7 py-3.5 rounded-xl text-sm font-semibold text-white"
             >
               <Download className="w-4 h-4 relative z-10" />
@@ -336,12 +336,7 @@ export default function Hero() {
           <div className="hidden sm:block w-px h-4 bg-white/10" />
 
         </motion.div>
-
-        {/* IDE Mockup */}
-        <IDEMockup />
       </div>
-
-      {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#181828] to-transparent pointer-events-none" />
     </section>
   );

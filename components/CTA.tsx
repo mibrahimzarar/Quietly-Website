@@ -63,7 +63,7 @@ export default function CTA() {
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <motion.a
-              href="/download"
+              href="/pricing"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="btn-purple group relative flex items-center gap-3 px-8 py-4 rounded-2xl text-base font-semibold text-white"

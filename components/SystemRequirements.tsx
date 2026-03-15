@@ -7,29 +7,25 @@ const requirements = [
   {
     icon: Monitor,
     category: "Operating System",
-    minimum: "Windows 10 (64-bit)",
-    recommended: "Windows 11 (64-bit)",
+    minimum: "Windows 10 (64-bit) / macOS 12+ / Linux",
     note: null,
   },
   {
     icon: MemoryStick,
     category: "RAM",
     minimum: "8 GB",
-    recommended: "16 GB or more",
     note: "More RAM = larger models supported",
   },
   {
     icon: HardDrive,
     category: "Disk Space",
     minimum: "2 GB (app only)",
-    recommended: "10 GB+ (with models)",
     note: "Model storage varies by size",
   },
   {
     icon: Cpu,
     category: "CPU",
-    minimum: "x64 processor",
-    recommended: "Modern multi-core CPU",
+    minimum: "x64 processor / Apple Silicon",
     note: "GPU acceleration coming soon",
   },
 ];
@@ -77,10 +73,9 @@ export default function SystemRequirements() {
           className="rounded-2xl border border-white/[0.07] overflow-hidden mb-12"
         >
           {/* Table header */}
-          <div className="grid grid-cols-3 md:grid-cols-4 gap-0 bg-[#17172a] border-b border-white/[0.06] px-6 py-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-0 bg-[#17172a] border-b border-white/[0.06] px-6 py-3">
             <div className="text-xs font-semibold text-white/40 uppercase tracking-wider">Component</div>
-            <div className="text-xs font-semibold text-white/40 uppercase tracking-wider">Minimum</div>
-            <div className="text-xs font-semibold text-white/40 uppercase tracking-wider">Recommended</div>
+            <div className="text-xs font-semibold text-white/40 uppercase tracking-wider">Requirement</div>
             <div className="hidden md:block text-xs font-semibold text-white/40 uppercase tracking-wider">Note</div>
           </div>
 
@@ -93,7 +88,7 @@ export default function SystemRequirements() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className="grid grid-cols-3 md:grid-cols-4 gap-0 px-6 py-4 border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02] transition-colors group"
+                className="grid grid-cols-2 md:grid-cols-3 gap-0 px-6 py-4 border-b border-white/[0.04] last:border-0 hover:bg-white/[0.02] transition-colors group"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center group-hover:bg-purple-500/15 transition-colors">
@@ -103,10 +98,6 @@ export default function SystemRequirements() {
                 </div>
                 <div className="flex items-center">
                   <span className="text-sm text-white/50">{req.minimum}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-green-400/70 shrink-0" />
-                  <span className="text-sm text-white/70">{req.recommended}</span>
                 </div>
                 <div className="hidden md:flex items-center">
                   {req.note && (
