@@ -98,7 +98,7 @@ export default function PoweredBy() {
               
               <h3 className="text-2xl font-bold text-white mb-3">AirLLM</h3>
               <p className="text-white/60 leading-relaxed mb-8">
-                Run massive 70B+ parameter models on a single consumer GPU. Quietly utilizes AirLLM's innovative layer-wise execution to bypass VRAM limitations completely.
+                Run massive 70B+ parameter models on a single consumer GPU. Quietly utilizes AirLLM&apos;s innovative layer-wise execution to bypass VRAM limitations completely.
               </p>
 
               <div className="space-y-4">
