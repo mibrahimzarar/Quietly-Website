@@ -226,10 +226,10 @@ export default function PricingPage() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/[0.08] py-8 mt-12">
         <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
-          <p>&copy; 2026 Quietly. All rights reserved.</p>
+          <p>&copy; 2026 IntelliBud Innovations. All rights reserved.</p>
           <div className="flex items-center gap-6">
-             <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
           </div>
         </div>
       </footer>

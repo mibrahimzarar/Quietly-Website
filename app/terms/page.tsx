@@ -82,16 +82,16 @@ export default function TermsOfService() {
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">5. Refund Policy</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            We want you to be completely satisfied with Quietly. If you are not satisfied with your purchase, we offer a refund policy as outlined below.
+            We want you to be completely satisfied with Quietly. If you are not satisfied with your purchase, we offer a <strong>30-day</strong> refund window from the date of purchase.
           </p>
           <ul className="list-disc pl-6 space-y-2 text-white/70 mb-6">
-            <li><strong>How to Request a Refund:</strong> To request a refund, please contact us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a> with your order details. Refunds are processed within 5-10 business days.</li>
+            <li><strong>How to Request a Refund:</strong> To request a refund within the 30-day window, please contact us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a> with your order details. Refunds are processed within 5-10 business days.</li>
             <li><strong>License Revocation:</strong> Upon receiving a refund, your license key will be deactivated and you must uninstall and remove all copies of the Software from your devices.</li>
           </ul>
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">6. Contact Information</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            Questions about the Terms of Service should be sent to us at <a href="mailto:info@quietlycode.org" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
+            Questions about the Terms of Service should be sent to us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
           </p>
         </div>
       </section>
@@ -99,7 +99,7 @@ export default function TermsOfService() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/[0.08] py-8">
         <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
-          <p>&copy; 2026 Quietly. All rights reserved.</p>
+          <p>&copy; 2026 IntelliBud Innovations. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link href="/terms" className="text-white">Terms of Service</Link>
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>

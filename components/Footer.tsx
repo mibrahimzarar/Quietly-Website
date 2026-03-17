@@ -90,7 +90,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/[0.05] py-5 flex flex-col md:flex-row items-center justify-center md:justify-between gap-4 text-center">
           <p className="text-xs text-white/20">
-            © 2026 Quietly. All rights reserved.
+            © 2026 IntelliBud Innovations. All rights reserved.
           </p>
 
           <div className="flex items-center justify-center gap-1.5 text-xs text-white/20">

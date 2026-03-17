@@ -84,7 +84,7 @@ export default function PrivacyPolicy() {
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">5. Contacting Us</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            If you have any questions about our privacy practices, please contact us at <a href="mailto:info@quietlycode.org" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
+            If you have any questions about our privacy practices, please contact us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
           </p>
         </div>
       </section>
@@ -92,10 +92,10 @@ export default function PrivacyPolicy() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/[0.08] py-8">
         <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
-          <p>&copy; 2026 Quietly. All rights reserved.</p>
+          <p>&copy; 2026 IntelliBud Innovations. All rights reserved.</p>
           <div className="flex items-center gap-6">
-             <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-             <Link href="/privacy" className="text-white">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="text-white">Privacy Policy</Link>
           </div>
         </div>
       </footer>
