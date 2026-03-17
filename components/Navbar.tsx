@@ -87,8 +87,7 @@ export default function Navbar() {
                 whileTap={{ scale: 0.97 }}
                 className="btn-purple relative inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white overflow-hidden"
               >
-                <Download className="w-3.5 h-3.5 relative z-10" />
-                <span className="relative z-10">Download</span>
+                <span className="relative z-10">Get Started</span>
               </motion.a>
             </div>
 
@@ -130,8 +129,7 @@ export default function Navbar() {
                   href="#download"
                   className="btn-purple flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg text-sm font-medium text-white"
                 >
-                  <Download className="w-4 h-4" />
-                  Download for Windows
+                  Get Started
                 </a>
               </div>
             </div>

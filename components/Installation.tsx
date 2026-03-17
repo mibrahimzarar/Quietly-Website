@@ -141,18 +141,9 @@ export default function Installation() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="text-center mt-16"
+          className="text-center mt-12"
         >
-          <motion.a
-            href="#download"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="btn-purple inline-flex items-center gap-2.5 px-8 py-4 rounded-xl text-base font-semibold text-white"
-          >
-            <Download className="w-4 h-4 relative z-10" />
-            <span className="relative z-10">Download Quietly</span>
-          </motion.a>
-          <p className="text-white/30 text-xs mt-4">Free to use · Windows · macOS · Linux · No signup required</p>
+          <p className="text-white/30 text-xs">Free to use · Windows · macOS · Linux · No signup required</p>
         </motion.div>
       </div>
     </section>

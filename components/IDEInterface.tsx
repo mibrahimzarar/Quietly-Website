@@ -125,15 +125,13 @@ const screens = [
             { type: "warning", file: "src/index.ts", line: 5, msg: "Variable 'server' is declared but never used", ai: "Remove the unused variable or use it in your code." },
             { type: "info", file: "tsconfig.json", line: 3, msg: "Consider enabling 'strict' mode", ai: "Strict mode catches more type errors during development." },
           ].map((p, i) => (
-            <div key={i} className={`rounded-lg border p-2.5 ${
-              p.type === "error" ? "border-red-500/20 bg-red-500/5" :
+            <div key={i} className={`rounded-lg border p-2.5 ${p.type === "error" ? "border-red-500/20 bg-red-500/5" :
               p.type === "warning" ? "border-yellow-500/20 bg-yellow-500/5" :
-              "border-blue-500/20 bg-blue-500/5"
-            }`}>
+                "border-blue-500/20 bg-blue-500/5"
+              }`}>
               <div className="flex items-start gap-2">
-                <AlertCircle className={`w-3 h-3 mt-0.5 shrink-0 ${
-                  p.type === "error" ? "text-red-400" : p.type === "warning" ? "text-yellow-400" : "text-blue-400"
-                }`} />
+                <AlertCircle className={`w-3 h-3 mt-0.5 shrink-0 ${p.type === "error" ? "text-red-400" : p.type === "warning" ? "text-yellow-400" : "text-blue-400"
+                  }`} />
                 <div className="flex-1 min-w-0">
                   <div className="text-white/60 truncate">{p.msg}</div>
                   <div className="text-white/25 text-[9px] font-code mt-0.5">{p.file}:{p.line}</div>
@@ -172,10 +170,10 @@ export default function IDEInterface() {
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/20 bg-purple-500/5 mb-5 text-xs text-purple-400 font-medium">
             <Code2 className="w-3 h-3" />
-            IDE Interface
+            Quietly Interface
           </div>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-            Built for developers.
+            Built for developers & everyone else.
           </h2>
           <p className="text-white/50 text-lg max-w-xl mx-auto">
             Every panel, every feature designed for a distraction-free, AI-enhanced coding experience.
@@ -193,11 +191,10 @@ export default function IDEInterface() {
                   onClick={() => setActiveTab(i)}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
-                    activeTab === i
-                      ? "bg-purple-600 text-white glow-purple-sm"
-                      : "bg-white/[0.04] text-white/50 hover:text-white/80 border border-white/[0.06] hover:border-white/[0.12]"
-                  }`}
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${activeTab === i
+                    ? "bg-purple-600 text-white glow-purple-sm"
+                    : "bg-white/[0.04] text-white/50 hover:text-white/80 border border-white/[0.06] hover:border-white/[0.12]"
+                    }`}
                 >
                   <Icon className="w-4 h-4" />
                   {screen.label}
@@ -236,11 +233,10 @@ export default function IDEInterface() {
                     <button
                       key={s.id}
                       onClick={() => setActiveTab(i)}
-                      className={`flex items-center gap-1.5 px-3 py-1 rounded-t-md text-[11px] transition-colors ${
-                        activeTab === i
-                          ? "bg-[#1a1a2e] text-white/80 border-t border-l border-r border-white/[0.07]"
-                          : "text-white/30 hover:text-white/50"
-                      }`}
+                      className={`flex items-center gap-1.5 px-3 py-1 rounded-t-md text-[11px] transition-colors ${activeTab === i
+                        ? "bg-[#1a1a2e] text-white/80 border-t border-l border-r border-white/[0.07]"
+                        : "text-white/30 hover:text-white/50"
+                        }`}
                     >
                       <Icon className="w-3 h-3" />
                       {s.label}

@@ -10,7 +10,7 @@ const features = [
   {
     icon: WifiOff,
     title: "Offline AI",
-    description: "Run powerful coding models directly on your machine. No internet required — ever.",
+    description: "Run powerful AI models directly on your machine. No internet required — ever.",
     color: "purple",
     gradient: "from-purple-500/20 to-purple-700/10",
     border: "border-purple-500/20",

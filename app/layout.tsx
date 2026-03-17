@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Quietly - AI IDE & Standalone Chat.",
   description:
-    "Quietly is a private, local AI pair-programmer that runs entirely on your machine. No cloud. No telemetry. Your code never leaves your machine.",
+    "Quietly is a private, local AI pair-programmer & buddy that runs entirely on your machine. No cloud. No telemetry. Your code never leaves your machine.",
   keywords: [
     "offline AI IDE",
     "local AI coding",

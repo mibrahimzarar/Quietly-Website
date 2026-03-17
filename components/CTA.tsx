@@ -52,12 +52,12 @@ export default function CTA() {
 
           {/* Headline */}
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight leading-[1.05]">
-            Start Coding with{" "}
+            Start Coding / Chating with{" "}
             <span className="gradient-text">Local AI</span>
           </h2>
 
           <p className="text-xl text-white/50 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Join developers who choose privacy and control over convenience. Your AI pair-programmer, running entirely on your machine.
+            Join community who choose privacy and control over convenience. Your AI pair-programmer & buddy running entirely on your machine.
           </p>
 
           {/* Buttons */}
@@ -72,16 +72,6 @@ export default function CTA() {
               <span className="relative z-10">Download Quietly</span>
               <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-200" />
               <div className="absolute inset-0 rounded-2xl glow-purple opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </motion.a>
-
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.96 }}
-              className="flex items-center gap-2.5 px-8 py-4 rounded-2xl text-base font-medium text-white/70 hover:text-white border border-white/[0.1] hover:border-white/[0.2] bg-white/[0.03] hover:bg-white/[0.06] transition-all duration-200"
-            >
-              <BookOpen className="w-4 h-4" />
-              View Documentation
             </motion.a>
           </div>
 

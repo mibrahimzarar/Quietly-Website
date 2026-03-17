@@ -89,7 +89,7 @@ export default function ProductDemo() {
               </div>
               <div className="flex-1 flex justify-center">
                 <div className="flex items-center gap-2 px-4 py-1 rounded-md bg-white/[0.04] border border-white/[0.06] text-xs text-white/30 font-code">
-                  Quietly IDE — Demo
+                  Quietly — Demo
                 </div>
               </div>
               <div className="flex items-center gap-1 text-xs text-white/20">
@@ -135,11 +135,10 @@ export default function ProductDemo() {
                     ].map((f, i) => (
                       <div
                         key={i}
-                        className={`px-2 py-0.5 text-[10px] font-code rounded ${
-                          i === 1
+                        className={`px-2 py-0.5 text-[10px] font-code rounded ${i === 1
                             ? "bg-purple-500/10 text-purple-300"
                             : "text-white/20"
-                        }`}
+                          }`}
                       >
                         {f}
                       </div>

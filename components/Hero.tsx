@@ -253,7 +253,7 @@ export default function Hero() {
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/20 bg-purple-500/5 mb-8"
         >
           <Shield className="w-3 h-3 text-purple-400" />
-          <span className="text-xs text-purple-300 font-medium tracking-wide">Your code never leaves your machine</span>
+          <span className="text-xs text-purple-300 font-medium tracking-wide">Your Code & Chat never leaves your machine</span>
           <Wifi className="w-3 h-3 text-white/20" style={{ textDecoration: "line-through" }} />
         </motion.div>
 
@@ -278,7 +278,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="text-lg md:text-xl text-white/50 max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Quietly is a private AI pair-programmer that runs entirely on your machine.{" "}
+          Quietly is a private AI pair-programmer & buddy that runs entirely on your machine.{" "}
           <span className="text-white/70">No cloud. No telemetry. No compromise.</span>
         </motion.p>
 
