@@ -69,27 +69,22 @@ export default function PrivacyPolicy() {
             When you browse quietlycode.com, our hosting provider may collect standard connection information (such as your IP address and user agent) purely for server logging and abuse prevention. We do not use invasive tracking scripts, marketing pixels, or third-party advertising cookies.
           </p>
 
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">3. Purchase Information (Lemon Squeezy)</h2>
+          <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">3. Purchase Information</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            To handle payments and license generation securely, we use a Merchant of Record called <strong>Lemon Squeezy</strong>. When you purchase a license:
+            When you purchase a license, you provide your email address, name, and payment information through our secure payment processor. We do not process or store your raw credit card numbers.
           </p>
-          <ul className="list-disc pl-6 space-y-2 text-white/70 mb-6">
-            <li>You provide your email address, name, and payment information directly to Lemon Squeezy.</li>
-            <li>We do not process or see your raw credit card numbers.</li>
-            <li>We receive notifications from Lemon Squeezy regarding your order status (e.g., successful payment, your email, and the generated license key) so we can provide you access to the software.</li>
-          </ul>
           <p className="text-white/70 leading-relaxed mb-6">
-            You can view Lemon Squeezy&apos;s privacy policy <a href="https://www.lemonsqueezy.com/privacy" className="text-purple-400 hover:text-purple-300 underline underline-offset-4" target="_blank" rel="noreferrer">here</a>.
+            Upon successful payment, we receive your order information including your email and the generated license key so we can provide you access to the software.
           </p>
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">4. License Verification</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            When you enter your license key on our download page, that key is sent securely to the Lemon Squeezy API for verification. Once verified, the download links are unlocked. The application itself does not require an ongoing internet connection to &quot;phone home&quot; or verify the license continuously.
+            When you enter your license key on our download page, that key is verified securely. Once verified, the download links are unlocked. The application itself does not require an ongoing internet connection to &quot;phone home&quot; or verify the license continuously.
           </p>
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">5. Contacting Us</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            If you have any questions about our privacy practices, please contact us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
+            If you have any questions about our privacy practices, please contact us at <a href="mailto:info@quietlycode.org" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
           </p>
         </div>
       </section>

@@ -28,8 +28,7 @@ const included = [
   "Custom model fine-tuning support",
 ];
 
-const CHECKOUT_URL =
-  "https://intellibud.lemonsqueezy.com/checkout/buy/e84322c0-25a6-4b4c-a9b4-b959787b1abf";
+const CHECKOUT_URL = "#";
 
 export default function PricingPage() {
   return (

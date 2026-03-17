@@ -399,7 +399,7 @@ function DownloadPageContent() {
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">Unlock Downloads</h2>
               <p className="text-sm text-white/60">
-                Enter the license key from your Lemon Squeezy receipt.
+                Enter your license key from your purchase receipt.
               </p>
             </div>
 

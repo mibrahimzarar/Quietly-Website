@@ -80,9 +80,18 @@ export default function TermsOfService() {
             These terms and conditions are governed by and construed in accordance with standard international software distribution laws.
           </p>
 
-          <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">5. Contact Information</h2>
+          <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">5. Refund Policy</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            Questions about the Terms of Service should be sent to us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
+            We want you to be completely satisfied with Quietly. If you are not satisfied with your purchase, we offer a refund policy as outlined below.
+          </p>
+          <ul className="list-disc pl-6 space-y-2 text-white/70 mb-6">
+            <li><strong>How to Request a Refund:</strong> To request a refund, please contact us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a> with your order details. Refunds are processed within 5-10 business days.</li>
+            <li><strong>License Revocation:</strong> Upon receiving a refund, your license key will be deactivated and you must uninstall and remove all copies of the Software from your devices.</li>
+          </ul>
+
+          <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">6. Contact Information</h2>
+          <p className="text-white/70 leading-relaxed mb-6">
+            Questions about the Terms of Service should be sent to us at <a href="mailto:info@quietlycode.org" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
           </p>
         </div>
       </section>
