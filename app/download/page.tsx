@@ -377,7 +377,7 @@ function DownloadPageContent() {
           <p className="text-lg text-white/70 max-w-xl mx-auto mb-6 leading-relaxed">
             No subscriptions. No accounts.
             <br className="hidden sm:block" />
-            Start coding with local AI in under two minutes.
+            Start coding with local AI in minutes.
           </p>
         </motion.div>
       </section>
