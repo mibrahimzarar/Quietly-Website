@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Quietly - AI IDE & Standalone Chat.",
+  title: "Quietly - Offline AI IDE & Standalone Chat.",
   description:
     "Quietly is a private, local AI pair-programmer & buddy that runs entirely on your machine. No cloud. No telemetry. Your code never leaves your machine.",
   keywords: [
@@ -15,9 +15,9 @@ export const metadata: Metadata = {
     "Quietly",
   ],
   openGraph: {
-    title: "Quietly — AI Coding and Chat. Completely Offline.",
+    title: "Quietly — Offline AI Coding and Chat. Completely Offline.",
     description:
-      "A calm, local, private AI pair-programmer. Your code never leaves your machine.",
+      "A calm, local, private AI pair-programmer & buddy. Your code never leaves your machine.",
     type: "website",
   },
 };

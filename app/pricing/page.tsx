@@ -28,7 +28,7 @@ const included = [
   "Custom model fine-tuning support",
 ];
 
-const CHECKOUT_URL = "#";
+const CHECKOUT_URL = "https://quietlycode.lemonsqueezy.com/checkout/buy/2c9d6e80-91a5-4b8b-962b-e8447b56545e";
 
 export default function PricingPage() {
   return (
@@ -148,6 +148,17 @@ export default function PricingPage() {
                 <Zap className="w-3 h-3" />
                 <span>Instant delivery</span>
               </div>
+            </div>
+
+            {/* Redeem License link */}
+            <div className="mt-8 border-t border-white/5 pt-6">
+              <Link
+                href="/download"
+                className="text-sm text-purple-400/80 hover:text-purple-300 transition-colors inline-flex items-center gap-1.5"
+              >
+                Already have a license? Redeem here
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
         </motion.div>
