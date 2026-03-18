@@ -12,6 +12,7 @@ export async function POST(request: Request) {
     }
 
     const API_KEY = process.env.LEMON_SQUEEZY_API_KEY;
+    console.log("DEBUG: LEMON_SQUEEZY_API_KEY found:", !!API_KEY, "Length:", API_KEY?.length);
 
     if (!API_KEY) {
       console.error("LEMON_SQUEEZY_API_KEY is missing from environment variables");
