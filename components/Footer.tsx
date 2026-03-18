@@ -96,7 +96,7 @@ export default function Footer() {
           <div className="flex items-center justify-center gap-1.5 text-xs text-white/20">
             <span>Built with</span>
             <Heart className="w-3 h-3 text-purple-500/50 fill-purple-500/35" />
-            <span>for developers who value privacy</span>
+            <span>for people who value privacy</span>
           </div>
         </div>
       </div>

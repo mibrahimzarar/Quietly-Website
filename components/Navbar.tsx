@@ -1,137 +1,192 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Download } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { Menu, X, ArrowRight, Github } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const navLinks = [
-  { label: "Features", href: "#features" },
-  { label: "Demo", href: "#demo" },
-  { label: "Privacy", href: "#privacy" },
+  { label: "Features", href: "/#features" },
+  { label: "Demo", href: "/#demo" },
+  { label: "Privacy", href: "/privacy" },
   { label: "Pricing", href: "/pricing" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [boxData, setBoxData] = useState({ left: 0, width: 0, opacity: 0 });
+  const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleMouseEnter = (e: React.MouseEvent<HTMLAnchorElement>, index: number) => {
+    const target = e.currentTarget;
+    setHoveredIndex(index);
+    setBoxData({
+      left: target.offsetLeft,
+      width: target.offsetWidth,
+      opacity: 1,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+    setBoxData((prev) => ({ ...prev, opacity: 0 }));
+  };
+
   return (
     <>
-      <motion.nav
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-          ? "bg-[#181828]/80 backdrop-blur-xl border-b border-white/[0.06] shadow-2xl shadow-black/30"
-          : "bg-transparent"
-          }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pt-4 pointer-events-none">
+        <motion.nav
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className={`
+            pointer-events-auto transition-all duration-700 ease-in-out
+            ${scrolled 
+              ? "nav-pill glass-morphism-premium py-2 max-w-[95%] sm:max-w-fit mx-auto" 
+              : "w-full bg-transparent py-4 px-6 sm:px-12"}
+          `}
+        >
+          <div className={`flex items-center gap-8 ${scrolled ? "" : "max-w-7xl mx-auto w-full justify-between"}`}>
             {/* Logo */}
-            <motion.a
-              href="#"
-              className="flex items-center gap-2.5 group"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <Link 
+              href="/" 
+              onClick={(e) => {
+                if (window.location.pathname === "/") {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+              className="flex items-center gap-3 group"
             >
-              <div className="relative">
-                <div className="relative w-8 h-8 rounded-lg overflow-hidden glow-purple-sm">
-                  <Image
-                    src="/images/logo.png"
-                    alt="Quietly Logo"
-                    width={32}
-                    height={32}
-                    className="w-full h-full object-contain"
-                    suppressHydrationWarning
-                  />
-                </div>
-                <div className="absolute inset-0 rounded-lg bg-purple-500/10 blur-md group-hover:blur-lg transition-all" />
-              </div>
-              <span className="font-semibold text-[15px] tracking-tight text-white/90">
+              <motion.div 
+                className="relative w-8 h-8 rounded-xl overflow-hidden bg-white/5 border border-white/10 flex items-center justify-center group-hover:glow-purple-premium transition-all duration-300"
+                whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+              >
+                <Image
+                  src="/images/logo.png"
+                  alt="Quietly Logo"
+                  width={24}
+                  height={24}
+                  className="w-6 h-6 object-contain opacity-90 group-hover:opacity-100 transition-opacity"
+                />
+              </motion.div>
+              <motion.span 
+                animate={{ width: scrolled ? 0 : "auto", opacity: scrolled ? 0 : 1 }}
+                className="font-bold text-lg tracking-tight text-white/90 group-hover:text-white transition-colors overflow-hidden whitespace-nowrap"
+              >
                 Quietly
-              </span>
-            </motion.a>
+              </motion.span>
+            </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link, i) => (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
-                  className="px-4 py-2 text-sm text-white/60 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/[0.04]"
-                >
-                  {link.label}
-                </motion.a>
-              ))}
+            <div className="hidden md:flex items-center relative" onMouseLeave={handleMouseLeave}>
+              {/* Sliding Indicator */}
+              <motion.div
+                className="absolute h-8 bg-white/[0.08] rounded-full z-0 border border-white/[0.05]"
+                initial={false}
+                animate={{
+                  left: boxData.left,
+                  width: boxData.width,
+                  opacity: boxData.opacity,
+                }}
+                transition={{ type: "spring", stiffness: 350, damping: 30 }}
+              />
+              
+              <div className="flex items-center gap-1 z-10">
+                {navLinks.map((link, i) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className={`
+                      px-4 py-1.5 text-sm font-medium transition-colors duration-300 rounded-full
+                      ${hoveredIndex === i ? "text-white" : "text-white/50 hover:text-white/80"}
+                    `}
+                    onMouseEnter={(e) => handleMouseEnter(e, i)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </div>
 
-            {/* CTA */}
-            <div className="hidden md:flex items-center gap-3">
-              <motion.a
-                href="#download"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.45 }}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="btn-purple relative inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white overflow-hidden"
+            {/* Right Column (CTA) */}
+            <div className="flex items-center gap-4">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="hidden md:block"
               >
-                <span className="relative z-10">Get Started</span>
-              </motion.a>
+                <Link
+                  href="/pricing"
+                  className="btn-premium group flex items-center gap-2"
+                >
+                  <span className="text-sm font-semibold tracking-wide">Get Started</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
+
+              {/* Mobile Toggle */}
+              <button
+                className="md:hidden p-2 text-white/60 hover:text-white transition-colors"
+                onClick={() => setMobileOpen(!mobileOpen)}
+              >
+                {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
             </div>
-
-            {/* Mobile menu toggle */}
-            <button
-              className="md:hidden p-2 text-white/60 hover:text-white transition-colors"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
           </div>
-        </div>
-      </motion.nav>
+        </motion.nav>
+      </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-16 z-40 bg-[#181828]/95 backdrop-blur-xl border-b border-white/[0.06] md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[45] bg-[#05050a]/90 backdrop-blur-2xl md:hidden"
           >
-            <div className="px-6 py-4 space-y-1">
-              {navLinks.map((link) => (
-                <a
+            <div className="flex flex-col items-center justify-center h-full space-y-8 p-6 text-center">
+              {navLinks.map((link, i) => (
+                <motion.div
                   key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block px-4 py-3 text-sm text-white/70 hover:text-white hover:bg-white/[0.04] rounded-lg transition-all"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
                 >
-                  {link.label}
-                </a>
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="text-3xl font-bold text-white/50 hover:text-white hover:shimmer-text transition-all"
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
               ))}
-              <div className="pt-3 pb-1">
-                <a
-                  href="#download"
-                  className="btn-purple flex items-center justify-center gap-2 w-full px-4 py-3 rounded-lg text-sm font-medium text-white"
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="pt-8 w-full max-w-xs"
+              >
+                <Link
+                  href="/pricing"
+                  onClick={() => setMobileOpen(false)}
+                  className="btn-premium flex items-center justify-center gap-3 w-full py-4 text-lg font-bold"
                 >
-                  Get Started
-                </a>
-              </div>
+                  Get Started <ArrowRight className="w-5 h-5" />
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         )}
@@ -139,3 +194,4 @@ export default function Navbar() {
     </>
   );
 }
+

@@ -40,8 +40,19 @@ function ParticleCanvas() {
       }
     };
 
+    let isVisible = false;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) draw();
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(canvas);
+
     // Pure O(n) draw — no connection lines; keeps a solid 60 fps
     const draw = () => {
+      if (!isVisible) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
@@ -60,12 +71,13 @@ function ParticleCanvas() {
     };
 
     resize();
-    draw();
+    // draw() is now called by the observer when entering view
     window.addEventListener("resize", resize, { passive: true });
 
     return () => {
       cancelAnimationFrame(animFrame);
       window.removeEventListener("resize", resize);
+      observer.unobserve(canvas);
     };
   }, []);
 
@@ -236,7 +248,7 @@ function useHeroOS() {
 export default function Hero() {
   const downloadLabel = useHeroOS();
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center pt-16 pb-24 overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-24 overflow-hidden">
       {/* Backgrounds */}
       <div className="absolute inset-0 bg-grid opacity-30" />
       <div className="absolute inset-0 bg-gradient-radial from-purple-900/20 via-transparent to-transparent" />
