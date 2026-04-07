@@ -28,15 +28,15 @@ import { useEffect, useState } from "react";
 
 // ── GitHub Releases (proxied via API route) ─────────────────────────
 const GH_REPO = "mibrahimzarar/Quietly";
-const FALLBACK_TAG = "v1.0.0";
+const FALLBACK_TAG = "v1.1.6";
 const DL_BASE = `https://github.com/${GH_REPO}/releases/download/${FALLBACK_TAG}`;
 
 const FALLBACK_ASSETS: Assets = {
-  winX64: "",
-  macUniversal: "",
-  linuxAppImage: `${DL_BASE}/Quietly-1.0.0.AppImage`,
-  linuxDeb: `${DL_BASE}/quietlycode_1.0.0_amd64.deb`,
-  linuxRpm: `${DL_BASE}/quietlycode-1.0.0.x86_64.rpm`,
+  winX64: `${DL_BASE}/Quietly-Setup.exe`,
+  macUniversal: `${DL_BASE}/Quietly-universal.dmg`,
+  linuxAppImage: `${DL_BASE}/Quietly-x86_64.AppImage`,
+  linuxDeb: `${DL_BASE}/Quietly-amd64.deb`,
+  linuxRpm: `${DL_BASE}/Quietly-x86_64.rpm`,
 };
 
 interface Assets {
