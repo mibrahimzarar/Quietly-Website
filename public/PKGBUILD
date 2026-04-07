@@ -1,6 +1,6 @@
 # Maintainer: Ibrahim Zarar <mibrahimzarar@gmail.com>
 pkgname=quietlycode
-pkgver=1.0.6
+pkgver=1.1.6
 pkgrel=1
 pkgdesc="Offline-First Local AI IDE powered by llama.cpp and AirLLM"
 arch=('x86_64')
@@ -11,7 +11,7 @@ options=(!strip)
 
 _gh="https://github.com/mibrahimzarar/Quietly/releases/latest/download"
 
-source_x86_64=("Quietly.AppImage::${_gh}/Quietly-x64.AppImage")
+source_x86_64=("Quietly.AppImage::${_gh}/Quietly-x86_64.AppImage")
 
 sha256sums_x86_64=('SKIP')
 
