@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Quietly Installer for Linux
-# Usage: curl -fsSL https://quietlycode.netlify.app/install.sh | bash
+# Usage: curl -fsSL https://quietlycode.org/install.sh | bash
 set -euo pipefail
 
 # ── Configuration ─────────────────────────────────────────────────────────────

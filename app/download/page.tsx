@@ -668,10 +668,10 @@ function DownloadPageContent() {
                             </div>
                             <div className="flex items-center gap-3 bg-[#0c0c18] rounded-xl px-5 py-3.5 border border-white/[0.1] group">
                               <code className="text-xs font-mono text-green-400 flex-1 overflow-x-auto whitespace-nowrap">
-                                curl -fsSL https://quietlycode.netlify.app/install.sh | bash
+                                curl -fsSL https://quietlycode.org/install.sh | bash
                               </code>
                               <button
-                                onClick={() => handleCopy("curl -fsSL https://quietlycode.netlify.app/install.sh | bash", "install")}
+                                onClick={() => handleCopy("curl -fsSL https://quietlycode.org/install.sh | bash", "install")}
                                 className="flex items-center gap-1.5 text-[11px] text-white/50 hover:text-white/80 border border-white/[0.12] hover:border-white/[0.2] rounded-lg px-3 py-1.5 transition-all shrink-0"
                               >
                                 {copied === "install" ? (
@@ -697,10 +697,10 @@ function DownloadPageContent() {
                             </div>
                             <div className="flex items-center gap-3 bg-[#0c0c18] rounded-xl px-5 py-3.5 border border-white/[0.1] group">
                               <code className="text-xs font-mono text-green-400 flex-1 overflow-x-auto whitespace-nowrap">
-                                curl -fsSL https://quietlycode.netlify.app/PKGBUILD -o PKGBUILD && makepkg -si
+                                curl -fsSL https://quietlycode.org/PKGBUILD -o PKGBUILD && makepkg -si
                               </code>
                               <button
-                                onClick={() => handleCopy("curl -fsSL https://quietlycode.netlify.app/PKGBUILD -o PKGBUILD && makepkg -si", "arch")}
+                                onClick={() => handleCopy("curl -fsSL https://quietlycode.org/PKGBUILD -o PKGBUILD && makepkg -si", "arch")}
                                 className="flex items-center gap-1.5 text-[11px] text-white/50 hover:text-white/80 border border-white/[0.12] hover:border-white/[0.2] rounded-lg px-3 py-1.5 transition-all shrink-0"
                               >
                                 {copied === "arch" ? (
