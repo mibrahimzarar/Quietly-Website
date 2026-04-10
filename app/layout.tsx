@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import NavigationRecovery from "@/components/NavigationRecovery";
 import "./globals.css";
 
 const inter = Inter({
@@ -47,6 +48,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.png" />
       </head>
       <body className="bg-[#05050a] text-white antialiased font-sans overflow-x-hidden" suppressHydrationWarning>
+        <NavigationRecovery />
         {children}
       </body>
     </html>

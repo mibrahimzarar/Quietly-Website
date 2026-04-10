@@ -28,8 +28,17 @@ import { useEffect, useState } from "react";
 
 // ── GitHub Releases (proxied via API route) ─────────────────────────
 const GH_REPO = "mibrahimzarar/Quietly";
+/** Must match the GitHub release tag for the binaries you ship (used when API fails or assets are missing). */
 const FALLBACK_TAG = "v1.0.0";
 const DL_BASE = `https://github.com/${GH_REPO}/releases/download/${FALLBACK_TAG}`;
+
+interface Assets {
+  winX64: string;
+  macUniversal: string;
+  linuxAppImage: string;
+  linuxDeb: string;
+  linuxRpm: string;
+}
 
 const FALLBACK_ASSETS: Assets = {
   winX64: `${DL_BASE}/Quietly-Setup.exe`,
@@ -46,7 +55,7 @@ function extractGitHubReleaseTag(url: string): string | null {
   return m ? decodeURIComponent(m[1]) : null;
 }
 
-/** Shown version must match the files linked — not only API `tag_name` (fallback URLs may differ). */
+/** Label matches the files users download (resolves API tag vs pinned fallback mismatch). */
 function inferVersionFromAssets(assets: Assets, apiTag: string): string {
   const counts = new Map<string, number>();
   for (const url of Object.values(assets)) {
@@ -61,14 +70,6 @@ function inferVersionFromAssets(assets: Assets, apiTag: string): string {
     return a[0].localeCompare(b[0]);
   });
   return sorted[0][0];
-}
-
-interface Assets {
-  winX64: string;
-  macUniversal: string;
-  linuxAppImage: string;
-  linuxDeb: string;
-  linuxRpm: string;
 }
 
 function useGitHubRelease() {
@@ -387,12 +388,7 @@ function DownloadPageContent() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 mb-6">
-            <Shield className="w-3 h-3 text-purple-400" />
-            <span className="text-xs text-purple-300 font-medium">
-              Your code never leaves your machine
-            </span>
-          </div>
+
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-3">
             <span className="gradient-text">QUIETLY</span>
@@ -401,11 +397,13 @@ function DownloadPageContent() {
             Offline IDE &amp; Standalone Chat
           </p>
 
-          <p className="text-lg text-white/70 max-w-xl mx-auto mb-6 leading-relaxed">
-            No subscriptions. No accounts.
-            <br className="hidden sm:block" />
-            Start coding with local AI in minutes.
-          </p>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 mb-6">
+            <Shield className="w-3 h-3 text-purple-400" />
+            <span className="text-xs text-purple-300 font-medium">
+              Your data never leaves your machine
+            </span>
+          </div>
+
         </motion.div>
       </section>
 
