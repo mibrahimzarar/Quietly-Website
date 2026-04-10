@@ -28,7 +28,7 @@ import { useEffect, useState } from "react";
 
 // ── GitHub Releases (proxied via API route) ─────────────────────────
 const GH_REPO = "mibrahimzarar/Quietly";
-const FALLBACK_TAG = "v1.1.6";
+const FALLBACK_TAG = "v1.0.0";
 const DL_BASE = `https://github.com/${GH_REPO}/releases/download/${FALLBACK_TAG}`;
 
 const FALLBACK_ASSETS: Assets = {
@@ -38,6 +38,30 @@ const FALLBACK_ASSETS: Assets = {
   linuxDeb: `${DL_BASE}/Quietly-amd64.deb`,
   linuxRpm: `${DL_BASE}/Quietly-x86_64.rpm`,
 };
+
+/** `https://github.com/.../releases/download/<tag>/file` → tag */
+function extractGitHubReleaseTag(url: string): string | null {
+  if (!url) return null;
+  const m = url.match(/\/releases\/download\/([^/]+)\//);
+  return m ? decodeURIComponent(m[1]) : null;
+}
+
+/** Shown version must match the files linked — not only API `tag_name` (fallback URLs may differ). */
+function inferVersionFromAssets(assets: Assets, apiTag: string): string {
+  const counts = new Map<string, number>();
+  for (const url of Object.values(assets)) {
+    const t = extractGitHubReleaseTag(url);
+    if (t) counts.set(t, (counts.get(t) || 0) + 1);
+  }
+  if (counts.size === 0) return apiTag || FALLBACK_TAG;
+  const sorted = [...counts.entries()].sort((a, b) => {
+    if (b[1] !== a[1]) return b[1] - a[1];
+    if (apiTag && a[0] === apiTag) return -1;
+    if (apiTag && b[0] === apiTag) return 1;
+    return a[0].localeCompare(b[0]);
+  });
+  return sorted[0][0];
+}
 
 interface Assets {
   winX64: string;
@@ -61,7 +85,6 @@ function useGitHubRelease() {
       })
       .then((release) => {
         const tag = release.tag_name || "";
-        setVersion(tag);
 
         const urls: Record<string, string> = {};
         for (const asset of release.assets || []) {
@@ -81,20 +104,22 @@ function useGitHubRelease() {
           }
         }
 
-        setHasRelease(true);
-
-        setAssets({
+        const merged: Assets = {
           winX64: urls.winX64 || FALLBACK_ASSETS.winX64,
           macUniversal: urls.macUniversal || FALLBACK_ASSETS.macUniversal,
           linuxAppImage: urls.linuxAppImage || FALLBACK_ASSETS.linuxAppImage,
           linuxDeb: urls.linuxDeb || FALLBACK_ASSETS.linuxDeb,
           linuxRpm: urls.linuxRpm || FALLBACK_ASSETS.linuxRpm,
-        });
+        };
+
+        setHasRelease(true);
+        setAssets(merged);
+        setVersion(inferVersionFromAssets(merged, tag));
       })
       .catch(() => {
         setHasRelease(true);
-        setVersion(FALLBACK_TAG);
         setAssets(FALLBACK_ASSETS);
+        setVersion(inferVersionFromAssets(FALLBACK_ASSETS, FALLBACK_TAG));
       })
       .finally(() => setLoading(false));
   }, []);
@@ -369,10 +394,12 @@ function DownloadPageContent() {
             </span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4">
-            <span className="text-white">Get </span>
-            <span className="gradient-text">Quietly</span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-3">
+            <span className="gradient-text">QUIETLY</span>
           </h1>
+          <p className="text-base sm:text-lg text-white/55 font-medium tracking-wide mb-6">
+            Offline IDE &amp; Standalone Chat
+          </p>
 
           <p className="text-lg text-white/70 max-w-xl mx-auto mb-6 leading-relaxed">
             No subscriptions. No accounts.
@@ -512,14 +539,7 @@ function DownloadPageContent() {
                 {version && (
                   <span className="text-purple-400/80 font-mono">{version}</span>
                 )}
-                <div className="flex items-center gap-1.5">
-                  <WifiOff className="w-3 h-3" />
-                  <span>Works offline</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Zap className="w-3 h-3" />
-                  <span>~2 min setup</span>
-                </div>
+
               </div>
             </motion.div>
           </section>

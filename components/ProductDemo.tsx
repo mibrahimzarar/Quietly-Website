@@ -2,27 +2,61 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Play, Volume2, Pause, Loader2 } from "lucide-react";
+import { Play, Volume2, VolumeX, Pause, Loader2 } from "lucide-react";
 
 export default function ProductDemo() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const videoAreaRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [hasStartedPlayback, setHasStartedPlayback] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Autoplay when the demo scrolls into view (muted + playsInline satisfies browser policies)
+  useEffect(() => {
+    if (!mounted) return;
+    const video = videoRef.current;
+    const area = videoAreaRef.current;
+    if (!video || !area) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
+          setIsLoading(true);
+          video.play().catch(() => setIsLoading(false));
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: [0, 0.35, 0.5, 0.75, 1], rootMargin: "0px 0px -8% 0px" }
+    );
+
+    observer.observe(area);
+    return () => observer.disconnect();
+  }, [mounted]);
+
   // Sync state from video events — single source of truth
   const handlePlay = useCallback(() => {
     setIsPlaying(true);
     setIsLoading(false);
+    setHasStartedPlayback(true);
   }, []);
   const handlePause = useCallback(() => setIsPlaying(false), []);
-  const handleWaiting = useCallback(() => setIsLoading(true), []);
-  const handleCanPlay = useCallback(() => setIsLoading(false), []);
+  /** Only used for initial play — mid-playback buffering must not cover the video with the loader */
+  const handlePlaying = useCallback(() => setIsLoading(false), []);
+
+  const toggleMute = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsMuted((m) => !m);
+  }, []);
 
   const togglePlay = useCallback(() => {
     const video = videoRef.current;
@@ -92,13 +126,23 @@ export default function ProductDemo() {
                   Quietly — Demo
                 </div>
               </div>
-              <div className="flex items-center gap-1 text-xs text-white/20">
-                <Volume2 className="w-3 h-3" />
-              </div>
+              <button
+                type="button"
+                onClick={toggleMute}
+                className="flex items-center gap-1 text-xs text-white/20 hover:text-white/50 p-1 rounded transition-colors"
+                aria-label={isMuted ? "Unmute demo video" : "Mute demo video"}
+              >
+                {isMuted ? (
+                  <VolumeX className="w-3 h-3" />
+                ) : (
+                  <Volume2 className="w-3 h-3" />
+                )}
+              </button>
             </div>
 
             {/* Video area */}
             <div
+              ref={videoAreaRef}
               className="relative bg-[#080810] aspect-video flex items-center justify-center group cursor-pointer overflow-hidden"
               onClick={togglePlay}
             >
@@ -112,16 +156,15 @@ export default function ProductDemo() {
                   preload="metadata"
                   onPlay={handlePlay}
                   onPause={handlePause}
-                  onWaiting={handleWaiting}
-                  onCanPlayThrough={handleCanPlay}
+                  onPlaying={handlePlaying}
                   loop
-                  muted
+                  muted={isMuted}
                   playsInline
                 />
               )}
 
-              {/* IDE screenshot fallback — shown when not playing */}
-              {(!mounted || !isPlaying) && (
+              {/* IDE placeholder only before first play — paused state shows the real video frame */}
+              {(!mounted || (!hasStartedPlayback && !isPlaying)) && (
                 <div className="absolute inset-0 flex bg-[#080810] z-10 pointer-events-none">
                   {/* Left sidebar */}
                   <div className="w-48 border-r border-white/[0.04] bg-[#1e1e34]/80 p-2 space-y-1">
@@ -205,8 +248,8 @@ export default function ProductDemo() {
                 </div>
               )}
 
-              {/* Loading spinner */}
-              {isLoading && (
+              {/* Loading spinner — only before playback starts (not during in-play buffering) */}
+              {isLoading && !isPlaying && (
                 <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-20 pointer-events-none">
                   <div className="relative">
                     <div className="absolute inset-0 bg-purple-600/30 blur-2xl rounded-full scale-150" />
