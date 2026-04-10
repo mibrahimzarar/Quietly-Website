@@ -12,9 +12,6 @@ import {
   Zap,
   Heart,
   Apple,
-  Terminal,
-  Copy,
-  CheckCheck,
   Package,
   Loader2,
   KeyRound,
@@ -225,7 +222,6 @@ function DownloadPageContent() {
   const { os, arch } = useDetectedOS();
   const { assets, version, loading, hasRelease } = useGitHubRelease();
   const [selectedOS, setSelectedOS] = useState<OS>("windows");
-  const [copied, setCopied] = useState<string | null>(null);
 
   // License Authorization State
   const [isAuthorized, setIsAuthorized] = useState(false);
@@ -319,12 +315,6 @@ function DownloadPageContent() {
       }
     }
   }, [searchParams, isAuthorized, validating]);
-
-  const handleCopy = (text: string, id: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(id);
-    setTimeout(() => setCopied(null), 2000);
-  };
 
   const platforms = assets ? buildPlatforms(assets) : [];
   const activePlatform = platforms.find((p) => p.id === selectedOS) || platforms[0];
@@ -669,73 +659,6 @@ function DownloadPageContent() {
                         );
                       })}
 
-                      {/* Linux quick install */}
-                      {selectedOS === "linux" && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.25 }}
-                          className="mt-4 pt-4 border-t border-white/[0.08] space-y-4"
-                        >
-                          {/* Universal install script */}
-                          <div>
-                            <div className="flex items-center gap-2 mb-3">
-                              <Terminal className="w-3.5 h-3.5 text-white/50" />
-                              <span className="text-xs text-white/50 font-medium">Quick install (Ubuntu, Debian, Fedora & more)</span>
-                            </div>
-                            <div className="flex items-center gap-3 bg-[#0c0c18] rounded-xl px-5 py-3.5 border border-white/[0.1] group">
-                              <code className="text-xs font-mono text-green-400 flex-1 overflow-x-auto whitespace-nowrap">
-                                curl -fsSL https://quietlycode.org/install.sh | bash
-                              </code>
-                              <button
-                                onClick={() => handleCopy("curl -fsSL https://quietlycode.org/install.sh | bash", "install")}
-                                className="flex items-center gap-1.5 text-[11px] text-white/50 hover:text-white/80 border border-white/[0.12] hover:border-white/[0.2] rounded-lg px-3 py-1.5 transition-all shrink-0"
-                              >
-                                {copied === "install" ? (
-                                  <>
-                                    <CheckCheck className="w-3 h-3 text-green-400" />
-                                    <span className="text-green-400">Copied</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <Copy className="w-3 h-3" />
-                                    <span>Copy</span>
-                                  </>
-                                )}
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* Arch Linux */}
-                          <div>
-                            <div className="flex items-center gap-2 mb-3">
-                              <Terminal className="w-3.5 h-3.5 text-white/50" />
-                              <span className="text-xs text-white/50 font-medium">Arch Linux (via PKGBUILD)</span>
-                            </div>
-                            <div className="flex items-center gap-3 bg-[#0c0c18] rounded-xl px-5 py-3.5 border border-white/[0.1] group">
-                              <code className="text-xs font-mono text-green-400 flex-1 overflow-x-auto whitespace-nowrap">
-                                curl -fsSL https://quietlycode.org/PKGBUILD -o PKGBUILD && makepkg -si
-                              </code>
-                              <button
-                                onClick={() => handleCopy("curl -fsSL https://quietlycode.org/PKGBUILD -o PKGBUILD && makepkg -si", "arch")}
-                                className="flex items-center gap-1.5 text-[11px] text-white/50 hover:text-white/80 border border-white/[0.12] hover:border-white/[0.2] rounded-lg px-3 py-1.5 transition-all shrink-0"
-                              >
-                                {copied === "arch" ? (
-                                  <>
-                                    <CheckCheck className="w-3 h-3 text-green-400" />
-                                    <span className="text-green-400">Copied</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <Copy className="w-3 h-3" />
-                                    <span>Copy</span>
-                                  </>
-                                )}
-                              </button>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
                     </div>
                   </motion.div>
                 </AnimatePresence>
