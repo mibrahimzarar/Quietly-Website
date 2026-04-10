@@ -28,9 +28,6 @@ import { useEffect, useState } from "react";
 
 // ── GitHub Releases (proxied via API route) ─────────────────────────
 const GH_REPO = "mibrahimzarar/Quietly";
-/** Must match the GitHub release tag for the binaries you ship (used when API fails or assets are missing). */
-const FALLBACK_TAG = "v1.0.0";
-const DL_BASE = `https://github.com/${GH_REPO}/releases/download/${FALLBACK_TAG}`;
 
 interface Assets {
   winX64: string;
@@ -40,12 +37,12 @@ interface Assets {
   linuxRpm: string;
 }
 
-const FALLBACK_ASSETS: Assets = {
-  winX64: `${DL_BASE}/Quietly-Setup.exe`,
-  macUniversal: `${DL_BASE}/Quietly-universal.dmg`,
-  linuxAppImage: `${DL_BASE}/Quietly-x86_64.AppImage`,
-  linuxDeb: `${DL_BASE}/Quietly-amd64.deb`,
-  linuxRpm: `${DL_BASE}/Quietly-x86_64.rpm`,
+const EMPTY_ASSETS: Assets = {
+  winX64: "",
+  macUniversal: "",
+  linuxAppImage: "",
+  linuxDeb: "",
+  linuxRpm: "",
 };
 
 /** `https://github.com/.../releases/download/<tag>/file` → tag */
@@ -55,14 +52,14 @@ function extractGitHubReleaseTag(url: string): string | null {
   return m ? decodeURIComponent(m[1]) : null;
 }
 
-/** Label matches the files users download (resolves API tag vs pinned fallback mismatch). */
+/** Label matches the files users download. */
 function inferVersionFromAssets(assets: Assets, apiTag: string): string {
   const counts = new Map<string, number>();
   for (const url of Object.values(assets)) {
     const t = extractGitHubReleaseTag(url);
     if (t) counts.set(t, (counts.get(t) || 0) + 1);
   }
-  if (counts.size === 0) return apiTag || FALLBACK_TAG;
+  if (counts.size === 0) return apiTag;
   const sorted = [...counts.entries()].sort((a, b) => {
     if (b[1] !== a[1]) return b[1] - a[1];
     if (apiTag && a[0] === apiTag) return -1;
@@ -106,21 +103,23 @@ function useGitHubRelease() {
         }
 
         const merged: Assets = {
-          winX64: urls.winX64 || FALLBACK_ASSETS.winX64,
-          macUniversal: urls.macUniversal || FALLBACK_ASSETS.macUniversal,
-          linuxAppImage: urls.linuxAppImage || FALLBACK_ASSETS.linuxAppImage,
-          linuxDeb: urls.linuxDeb || FALLBACK_ASSETS.linuxDeb,
-          linuxRpm: urls.linuxRpm || FALLBACK_ASSETS.linuxRpm,
+          winX64: urls.winX64 || "",
+          macUniversal: urls.macUniversal || "",
+          linuxAppImage: urls.linuxAppImage || "",
+          linuxDeb: urls.linuxDeb || "",
+          linuxRpm: urls.linuxRpm || "",
         };
 
-        setHasRelease(true);
+        const hasAnyAsset = Object.values(merged).some(Boolean);
+        setHasRelease(hasAnyAsset);
         setAssets(merged);
         setVersion(inferVersionFromAssets(merged, tag));
       })
       .catch(() => {
-        setHasRelease(true);
-        setAssets(FALLBACK_ASSETS);
-        setVersion(inferVersionFromAssets(FALLBACK_ASSETS, FALLBACK_TAG));
+        // Avoid sending users to broken hardcoded URLs if release API is unavailable.
+        setHasRelease(false);
+        setAssets(EMPTY_ASSETS);
+        setVersion("");
       })
       .finally(() => setLoading(false));
   }, []);
