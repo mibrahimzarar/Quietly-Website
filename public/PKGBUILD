@@ -7,15 +7,37 @@ arch=('x86_64')
 url="https://quietlycode.org"
 license=('custom')
 depends=('libnotify' 'libxtst' 'nss' 'libsecret' 'gtk3' 'libxss')
+makedepends=('curl')
 options=(!strip)
 
-_gh="https://github.com/mibrahimzarar/Quietly/releases/latest/download"
-
-source_x86_64=("Quietly.AppImage::${_gh}/Quietly-x86_64.AppImage")
-
+_gh_api="https://api.github.com/repos/mibrahimzarar/Quietly/releases/latest"
 sha256sums_x86_64=('SKIP')
 
 prepare() {
+    echo "Fetching latest Quietly release metadata..."
+    local release_json download_url
+    release_json="$(curl -fsSL --max-time 20 "${_gh_api}")" || {
+        echo "ERROR: Could not fetch latest release from GitHub API."
+        return 1
+    }
+
+    # Prefer architecture-specific asset names first; then fallback to any AppImage.
+    download_url="$(echo "${release_json}" | grep -oP '"browser_download_url"\s*:\s*"\K[^"]+' | grep -E 'x86_64\.AppImage$' | head -n1 || true)"
+    if [[ -z "${download_url}" ]]; then
+        download_url="$(echo "${release_json}" | grep -oP '"browser_download_url"\s*:\s*"\K[^"]+' | grep -E '\.AppImage$' | head -n1 || true)"
+    fi
+
+    if [[ -z "${download_url}" ]]; then
+        echo "ERROR: No AppImage asset found in latest release."
+        return 1
+    fi
+
+    echo "Downloading: ${download_url}"
+    curl -fL --progress-bar -o "Quietly.AppImage" "${download_url}" || {
+        echo "ERROR: Failed to download AppImage from release asset URL."
+        return 1
+    }
+
     chmod +x "Quietly.AppImage"
 }
 
