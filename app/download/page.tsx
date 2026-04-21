@@ -17,6 +17,7 @@ import {
   KeyRound,
   Lock,
   Unlock,
+  AlertTriangle,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -530,6 +531,28 @@ function DownloadPageContent() {
               </div>
             </motion.div>
           </section>
+
+          {/* Windows Certificate Warning Note - Only for Windows */}
+          {selectedOS === "windows" && (
+            <section className="relative z-10 max-w-2xl mx-auto px-6 lg:px-8 mb-10">
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex items-start gap-4 p-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 backdrop-blur-sm"
+              >
+                <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
+                  <AlertTriangle className="w-5 h-5 text-amber-400" />
+                </div>
+                <div className="space-y-1.5">
+                  <h4 className="text-sm font-semibold text-amber-200">Important Note for Windows Users</h4>
+                  <p className="text-[13px] text-white/60 leading-relaxed">
+                    If you encounter a warning during download stating that this file might be harmful, you can safely ignore it. This message appears because we are currently working on our official <strong>Windows Certificate</strong>. Quietly is 100% safe to download and install.
+                  </p>
+                </div>
+              </motion.div>
+            </section>
+          )}
 
           {/* OS Selector Tabs + Downloads */}
           <section className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 pb-16">
