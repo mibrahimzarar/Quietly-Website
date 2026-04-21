@@ -52,7 +52,7 @@ export default function Footer() {
               </div>
 
               <p className="text-white/35 text-sm leading-relaxed">
-                A local, private AI pair-programmer. Your code stays on your machine. Always.
+                A local, private AI pair-programmer & buddy. Your code stays on your machine. Always.
               </p>
             </motion.div>
           </div>
