@@ -117,7 +117,7 @@ export default function PricingPage() {
             {/* Price */}
             <div className="mb-2">
               <span className="text-7xl sm:text-8xl font-extrabold text-white tracking-tight">
-                $14
+                $17
               </span>
             </div>
             <p className="text-sm text-white/50 mb-10">
@@ -224,10 +224,6 @@ export default function PricingPage() {
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-lg bg-purple-500/15 flex items-center justify-center">
                 <Sparkles className="w-4 h-4 text-purple-400" />
-              </div>
-              <div>
-                <div className="text-sm font-medium text-white/75">Lifetime Updates</div>
-                <div className="text-xs text-white/40">Free forever</div>
               </div>
             </div>
           </div>

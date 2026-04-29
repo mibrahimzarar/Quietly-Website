@@ -319,6 +319,7 @@ function DownloadPageContent() {
 
   const platforms = assets ? buildPlatforms(assets) : [];
   const activePlatform = platforms.find((p) => p.id === selectedOS) || platforms[0];
+  const ActivePlatformIcon = activePlatform?.icon;
 
   // Determine primary download for detected OS
   const getPrimaryDownload = () => {
@@ -344,16 +345,16 @@ function DownloadPageContent() {
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-700/[0.08] blur-[120px] rounded-full pointer-events-none" />
 
       {/* Nav */}
-      <nav className="relative z-20 max-w-7xl mx-auto px-6 lg:px-8 py-6">
-        <div className="flex items-center justify-between">
+      <nav className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
           <Link
             href="/"
-            className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors min-w-0"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Back to home
+            <ArrowLeft className="w-4 h-4 shrink-0" />
+            <span className="truncate">Back to home</span>
           </Link>
-          <Link href="/" className="flex items-center gap-2.5">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0 ml-auto">
             <div className="relative w-7 h-7 rounded-lg overflow-hidden glow-purple-sm">
               <Image
                 src="/images/logo.png"
@@ -372,7 +373,7 @@ function DownloadPageContent() {
       </nav>
 
       {/* Hero */}
-      <section className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 pt-12 pb-6 text-center">
+      <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -380,7 +381,7 @@ function DownloadPageContent() {
         >
 
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-3">
+          <h1 className="text-[clamp(2rem,8vw,3.75rem)] sm:text-5xl md:text-6xl font-bold tracking-tight mb-3 px-1">
             <span className="gradient-text">QUIETLY</span>
           </h1>
           <p className="text-base sm:text-lg text-white/55 font-medium tracking-wide mb-6">
@@ -399,12 +400,12 @@ function DownloadPageContent() {
 
       {!isAuthorized ? (
         /* --- LICENSE KEY GATE UI --- */
-        <section className="relative z-10 max-w-md mx-auto px-6 lg:px-8 pb-32">
+        <section className="relative z-10 max-w-md mx-auto px-4 sm:px-6 lg:px-8 pb-24 sm:pb-32">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="rounded-3xl border border-purple-500/30 bg-gradient-to-b from-purple-500/[0.08] to-transparent p-8 sm:p-10 relative overflow-hidden"
+            className="rounded-3xl border border-purple-500/30 bg-gradient-to-b from-purple-500/[0.08] to-transparent p-6 sm:p-8 md:p-10 relative overflow-hidden"
           >
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-transparent via-purple-500/10 to-transparent opacity-50 pointer-events-none" />
 
@@ -473,7 +474,7 @@ function DownloadPageContent() {
           transition={{ duration: 0.5 }}
         >
           {/* Sign Out Button */}
-          <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 mb-4 flex justify-end">
+          <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-4 flex justify-end">
             <button
               onClick={handleSignOut}
               className="text-xs text-white/40 hover:text-red-400 transition-colors flex items-center gap-1.5"
@@ -484,21 +485,21 @@ function DownloadPageContent() {
           </div>
 
           {/* Primary download button for detected OS */}
-          <section className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 pb-10">
+          <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
-              className="flex flex-col items-center gap-3"
+              className="flex flex-col items-center gap-3 w-full max-w-lg mx-auto"
             >
               {loading ? (
-                <div className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-purple-500/20 text-white/70 font-semibold text-base">
+                <div className="flex items-center gap-3 px-6 sm:px-10 py-4 rounded-2xl bg-purple-500/20 text-white/70 font-semibold text-sm sm:text-base text-center w-full justify-center">
                   <Loader2 className="w-5 h-5 animate-spin" />
                   <span>Fetching latest release…</span>
                 </div>
               ) : !hasRelease ? (
                 <div className="flex flex-col items-center gap-2">
-                  <div className="flex items-center gap-3 px-10 py-4 rounded-2xl border border-purple-500/30 bg-purple-500/10 text-white/80 font-semibold text-base">
+                  <div className="flex flex-col sm:flex-row items-center gap-3 px-6 sm:px-10 py-4 rounded-2xl border border-purple-500/30 bg-purple-500/10 text-white/80 font-semibold text-sm sm:text-base w-full max-w-md justify-center text-center">
                     <Sparkles className="w-5 h-5 text-purple-400" />
                     <span>Coming Soon</span>
                   </div>
@@ -509,14 +510,14 @@ function DownloadPageContent() {
                   href={getPrimaryDownload()}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="group relative flex items-center gap-3 px-10 py-4 rounded-2xl btn-purple text-white font-semibold text-base shadow-lg shadow-purple-600/30"
+                  className="group relative flex items-center justify-center gap-3 w-full max-w-md px-6 sm:px-10 py-4 rounded-2xl btn-purple text-white font-semibold text-sm sm:text-base shadow-lg shadow-purple-600/30 text-center"
                 >
                   <Download className="w-5 h-5 relative z-10" />
                   <span className="relative z-10">{getPrimaryLabel()}</span>
                 </motion.a>
               ) : (
                 <div className="flex flex-col items-center gap-2">
-                  <div className="flex items-center gap-3 px-10 py-4 rounded-2xl border border-purple-500/30 bg-purple-500/10 text-white/80 font-semibold text-base">
+                  <div className="flex flex-col sm:flex-row items-center gap-3 px-6 sm:px-10 py-4 rounded-2xl border border-purple-500/30 bg-purple-500/10 text-white/80 font-semibold text-sm sm:text-base w-full max-w-md justify-center text-center">
                     <Sparkles className="w-5 h-5 text-purple-400" />
                     <span>{getPrimaryLabel()} — Coming Soon</span>
                   </div>
@@ -534,19 +535,19 @@ function DownloadPageContent() {
 
           {/* Windows Certificate Warning Note - Only for Windows */}
           {selectedOS === "windows" && (
-            <section className="relative z-10 max-w-2xl mx-auto px-6 lg:px-8 mb-10">
+            <section className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10">
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="flex items-start gap-4 p-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 backdrop-blur-sm"
+                className="flex flex-col sm:flex-row items-start gap-4 p-4 sm:p-5 rounded-2xl border border-amber-500/20 bg-amber-500/5 backdrop-blur-sm"
               >
                 <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0">
                   <AlertTriangle className="w-5 h-5 text-amber-400" />
                 </div>
                 <div className="space-y-1.5">
                   <h4 className="text-sm font-semibold text-amber-200">Important Note for Windows Users</h4>
-                  <p className="text-[13px] text-white/60 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-white/60 leading-relaxed">
                     If you encounter a warning during download stating that this file might be harmful, you can safely ignore it. This message appears because we are currently working on our official <strong>Windows Certificate</strong>. Quietly is 100% safe to download and install.
                   </p>
                 </div>
@@ -555,7 +556,7 @@ function DownloadPageContent() {
           )}
 
           {/* OS Selector Tabs + Downloads */}
-          <section className="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 pb-16">
+          <section className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 sm:pb-16">
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
@@ -568,16 +569,17 @@ function DownloadPageContent() {
                 </p>
               </div>
 
-              {/* OS Tabs */}
-              <div className="flex items-center justify-center gap-2 mb-8">
+              {/* OS Tabs — horizontal scroll on narrow viewports */}
+              <div className="flex items-stretch justify-start sm:justify-center gap-2 mb-8 overflow-x-auto pb-1 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {platforms.map((platform) => {
                   const isActive = selectedOS === platform.id;
                   const Icon = platform.icon;
                   return (
                     <button
                       key={platform.id}
+                      type="button"
                       onClick={() => setSelectedOS(platform.id)}
-                      className={`relative flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${isActive
+                      className={`relative flex shrink-0 snap-start items-center gap-2 min-h-[44px] px-3.5 sm:px-5 py-2.5 sm:py-3 rounded-xl text-xs sm:text-sm font-medium transition-all duration-300 ${isActive
                         ? "text-white bg-purple-500/20 border border-purple-500/40 shadow-lg shadow-purple-500/15"
                         : "text-white/55 hover:text-white/80 border border-white/[0.08] hover:border-white/[0.15] hover:bg-white/[0.05]"
                         }`}
@@ -595,7 +597,7 @@ function DownloadPageContent() {
               </div>
 
               {/* Active platform downloads */}
-              {!loading && activePlatform && (
+              {!loading && activePlatform && ActivePlatformIcon && (
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={selectedOS}
@@ -606,20 +608,20 @@ function DownloadPageContent() {
                     className="rounded-2xl border border-white/[0.1] bg-white/[0.03] overflow-hidden"
                   >
                     {/* Platform header */}
-                    <div className="px-8 py-6 border-b border-white/[0.08] flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center">
-                        <activePlatform.icon className="w-6 h-6 text-purple-400" />
+                    <div className="px-4 sm:px-8 py-5 sm:py-6 border-b border-white/[0.08] flex flex-col sm:flex-row sm:items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center shrink-0">
+                        <ActivePlatformIcon className="w-6 h-6 text-purple-400" />
                       </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-white">
+                      <div className="min-w-0 text-left">
+                        <h3 className="text-base sm:text-lg font-semibold text-white">
                           {activePlatform.name}
                         </h3>
-                        <p className="text-sm text-white/55">{activePlatform.description}</p>
+                        <p className="text-xs sm:text-sm text-white/55 leading-snug">{activePlatform.description}</p>
                       </div>
                     </div>
 
                     {/* Downloads list */}
-                    <div className="p-6 space-y-3">
+                    <div className="p-4 sm:p-6 space-y-3">
                       {activePlatform.downloads.map((dl, i) => {
                         const available = !!dl.href;
                         const Tag = available ? motion.a : motion.div;
@@ -630,16 +632,16 @@ function DownloadPageContent() {
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: i * 0.08 }}
-                            className={`group flex items-center justify-between p-4 rounded-xl border transition-all duration-200 ${!available
+                            className={`group flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-4 rounded-xl border transition-all duration-200 min-h-[3.25rem] ${!available
                               ? "border-white/[0.06] bg-white/[0.02] opacity-60 cursor-default"
                               : dl.recommended
-                                ? "border-purple-500/30 bg-purple-500/[0.08] hover:bg-purple-500/[0.14] hover:border-purple-500/40"
-                                : "border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15]"
+                                ? "border-purple-500/30 bg-purple-500/[0.08] hover:bg-purple-500/[0.14] hover:border-purple-500/40 active:scale-[0.99]"
+                                : "border-white/[0.1] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.15] active:scale-[0.99]"
                               }`}
                           >
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0 flex-1">
                               <div
-                                className={`w-10 h-10 rounded-lg flex items-center justify-center ${!available
+                                className={`w-10 h-10 shrink-0 rounded-lg flex items-center justify-center ${!available
                                   ? "bg-white/[0.04]"
                                   : dl.recommended
                                     ? "bg-purple-500/20"
@@ -655,8 +657,8 @@ function DownloadPageContent() {
                                     }`}
                                 />
                               </div>
-                              <div>
-                                <div className="flex items-center gap-2">
+                              <div className="min-w-0">
+                                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                                   <span className={`text-sm font-medium transition-colors ${available ? "text-white/90 group-hover:text-white" : "text-white/50"
                                     }`}>
                                     {dl.label}
@@ -671,12 +673,12 @@ function DownloadPageContent() {
                               </div>
                             </div>
                             {available ? (
-                              <div className="flex items-center gap-2 text-sm text-purple-400 group-hover:text-purple-300 transition-colors">
-                                <Download className="w-4 h-4" />
-                                <span className="hidden sm:inline font-medium">Download</span>
+                              <div className="flex items-center justify-center sm:justify-end gap-2 text-sm text-purple-400 group-hover:text-purple-300 transition-colors shrink-0 w-full sm:w-auto pt-1 sm:pt-0 border-t border-white/[0.06] sm:border-t-0">
+                                <Download className="w-4 h-4 shrink-0" />
+                                <span className="font-medium">Download</span>
                               </div>
                             ) : (
-                              <span className="text-xs text-white/35 font-medium">Coming Soon</span>
+                              <span className="text-xs text-white/35 font-medium self-center sm:self-auto">Coming Soon</span>
                             )}
                           </Tag>
                         );
@@ -695,9 +697,9 @@ function DownloadPageContent() {
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/[0.08] py-8">
-        <div className="max-w-4xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
-          <p>&copy; 2026 IntelliBud Innovations. All rights reserved.</p>
-          <div className="flex items-center gap-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40 text-center sm:text-left">
+          <p className="max-w-[28ch] sm:max-w-none">&copy; 2026 IntelliBud Innovations. All rights reserved.</p>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
           </div>

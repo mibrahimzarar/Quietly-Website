@@ -85,13 +85,13 @@ export default function TermsOfService() {
             We want you to be completely satisfied with Quietly. If you are not satisfied with your purchase, we offer a <strong>30-day</strong> refund window from the date of purchase.
           </p>
           <ul className="list-disc pl-6 space-y-2 text-white/70 mb-6">
-            <li><strong>How to Request a Refund:</strong> To request a refund within the 30-day window, please contact us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a> with your order details. Refunds are processed within 5-10 business days.</li>
+            <li><strong>How to Request a Refund:</strong> To request a refund within the 30-day window, please contact us at <a href="mailto:info@intellibud.org" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">info@intellibud.org</a> with your order details. Refunds are processed within 5-10 business days.</li>
             <li><strong>License Revocation:</strong> Upon receiving a refund, your license key will be deactivated and you must uninstall and remove all copies of the Software from your devices.</li>
           </ul>
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">6. Contact Information</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            Questions about the Terms of Service should be sent to us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
+            Questions about the Terms of Service should be sent to us at <a href="mailto:info@intellibud .org" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">info@intellibud.org</a>.
           </p>
         </div>
       </section>

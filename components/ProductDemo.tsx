@@ -10,7 +10,7 @@ export default function ProductDemo() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
   const [hasStartedPlayback, setHasStartedPlayback] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -18,20 +18,33 @@ export default function ProductDemo() {
     setMounted(true);
   }, []);
 
-  // Autoplay when the demo scrolls into view (muted + playsInline satisfies browser policies)
+  // Autoplay when the demo scrolls into view (playsInline required). Sound on by default; if the
+  // browser blocks unmuted autoplay, fall back to muted playback so the demo still runs.
   useEffect(() => {
     if (!mounted) return;
     const video = videoRef.current;
     const area = videoAreaRef.current;
     if (!video || !area) return;
 
+    const tryPlay = () => {
+      setIsLoading(true);
+      video.play().catch(() => {
+        if (!video.muted) {
+          video.muted = true;
+          setIsMuted(true);
+          video.play().catch(() => setIsLoading(false));
+        } else {
+          setIsLoading(false);
+        }
+      });
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
         if (!entry) return;
         if (entry.isIntersecting && entry.intersectionRatio >= 0.35) {
-          setIsLoading(true);
-          video.play().catch(() => setIsLoading(false));
+          tryPlay();
         } else {
           video.pause();
         }
@@ -64,7 +77,15 @@ export default function ProductDemo() {
 
     if (video.paused) {
       setIsLoading(true);
-      video.play().catch(() => setIsLoading(false));
+      video.play().catch(() => {
+        if (!video.muted) {
+          video.muted = true;
+          setIsMuted(true);
+          video.play().catch(() => setIsLoading(false));
+        } else {
+          setIsLoading(false);
+        }
+      });
     } else {
       video.pause();
     }
@@ -167,7 +188,7 @@ export default function ProductDemo() {
               {(!mounted || (!hasStartedPlayback && !isPlaying)) && (
                 <div className="absolute inset-0 flex bg-[#080810] z-10 pointer-events-none">
                   {/* Left sidebar */}
-                  <div className="w-48 border-r border-white/[0.04] bg-[#1e1e34]/80 p-2 space-y-1">
+                  <div className="hidden sm:flex w-36 md:w-48 shrink-0 border-r border-white/[0.04] bg-[#1e1e34]/80 p-2 space-y-1">
                     {[
                       "📁 Project",
                       "  📄 main.py",
@@ -189,7 +210,7 @@ export default function ProductDemo() {
                   </div>
 
                   {/* Main editor */}
-                  <div className="flex-1 p-4 space-y-1.5 font-code text-[10px] text-white/30 overflow-hidden">
+                  <div className="flex-1 min-w-0 p-3 sm:p-4 space-y-1.5 font-code text-[9px] sm:text-[10px] text-white/30 overflow-hidden">
                     <div className="text-purple-400">
                       {"def generate_code(prompt: str) → str:"}
                     </div>
@@ -218,7 +239,7 @@ export default function ProductDemo() {
                   </div>
 
                   {/* AI Chat */}
-                  <div className="w-56 border-l border-white/[0.04] bg-[#1e1e34]/60 p-3 space-y-3">
+                  <div className="hidden lg:flex w-52 xl:w-56 shrink-0 border-l border-white/[0.04] bg-[#1e1e34]/60 p-3 space-y-3">
                     <div className="text-[10px] text-white/20 uppercase tracking-widest font-code">
                       AI Chat
                     </div>

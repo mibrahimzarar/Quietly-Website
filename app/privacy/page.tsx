@@ -84,7 +84,7 @@ export default function PrivacyPolicy() {
 
           <h2 className="text-2xl font-bold mt-12 mb-4 text-white/90">5. Contacting Us</h2>
           <p className="text-white/70 leading-relaxed mb-6">
-            If you have any questions about our privacy practices, please contact us at <a href="mailto:support@quietlycode.com" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">support@quietlycode.com</a>.
+            If you have any questions about our privacy practices, please contact us at <a href="mailto:info@intellibud.org" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">info@intellibud.org</a>.
           </p>
         </div>
       </section>

@@ -12,13 +12,13 @@ const screens = [
     description: "Monaco-powered editor with syntax highlighting, multi-tab support, and AI inline suggestions.",
     content: (
       <div className="flex h-full">
-        <div className="w-44 border-r border-white/[0.05] p-2 bg-[#08080f]">
+        <div className="hidden sm:flex w-36 md:w-44 shrink-0 border-r border-white/[0.05] p-2 bg-[#08080f]">
           <div className="text-[9px] uppercase tracking-widest text-white/20 px-2 py-1 mb-1">Explorer</div>
           {["📁 src", "  📄 index.ts", "  📄 app.ts", "  📄 types.ts", "📁 utils", "  📄 helpers.ts", "📄 package.json", "📄 tsconfig.json"].map((f, i) => (
             <div key={i} className={`px-2 py-0.5 text-[10px] font-code rounded cursor-pointer ${i === 1 ? "bg-purple-500/15 text-purple-300 border-l border-purple-500" : "text-white/25 hover:text-white/50"}`}>{f}</div>
           ))}
         </div>
-        <div className="flex-1 p-4 font-code text-[11px] leading-6">
+        <div className="flex-1 min-w-0 p-3 sm:p-4 font-code text-[10px] sm:text-[11px] leading-relaxed sm:leading-6 overflow-x-auto">
           <div className="flex gap-3"><span className="text-white/20">1</span><span className="text-purple-400">import</span><span className="text-white/60 ml-1"><span className="text-blue-300">{"{ Express }"}</span> <span className="text-purple-400">from</span> <span className="text-yellow-200">&apos;express&apos;</span></span></div>
           <div className="flex gap-3"><span className="text-white/20">2</span><span className="text-purple-400">import</span><span className="text-white/60 ml-1"><span className="text-blue-300">{"{ createServer }"}</span> <span className="text-purple-400">from</span> <span className="text-yellow-200">&apos;http&apos;</span></span></div>
           <div className="flex gap-3"><span className="text-white/20">3</span><span className="text-white/20"></span></div>
@@ -114,8 +114,8 @@ const screens = [
     description: "Smart problems panel with AI-powered error explanations and one-click fix suggestions.",
     content: (
       <div className="flex flex-col h-full p-3">
-        <div className="flex gap-4 border-b border-white/[0.05] pb-2 mb-3">
-          <button className="text-xs text-white/70 border-b-2 border-purple-500 pb-1">Problems (3)</button>
+        <div className="flex flex-wrap gap-x-4 gap-y-2 border-b border-white/[0.05] pb-2 mb-3">
+          <button type="button" className="text-xs text-white/70 border-b-2 border-purple-500 pb-1">Problems (3)</button>
           <button className="text-xs text-white/30">Output</button>
           <button className="text-xs text-white/30">Debug Console</button>
         </div>
@@ -166,23 +166,23 @@ export default function IDEInterface() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-16 px-1"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-500/20 bg-purple-500/5 mb-5 text-xs text-purple-400 font-medium">
             <Code2 className="w-3 h-3" />
             Quietly Interface
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4 tracking-tight px-1 leading-tight">
             Built for developers & everyone else.
           </h2>
-          <p className="text-white/50 text-lg max-w-xl mx-auto">
+          <p className="text-white/50 text-base sm:text-lg max-w-xl mx-auto px-1">
             Every panel, every feature designed for a distraction-free, AI-enhanced coding experience.
           </p>
         </motion.div>
 
-        <motion.div style={{ opacity }} className="space-y-6">
-          {/* Tab buttons */}
-          <div className="flex flex-wrap justify-center gap-2">
+        <motion.div style={{ opacity }} className="space-y-4 sm:space-y-6">
+          {/* Tab buttons — horizontal scroll on narrow screens */}
+          <div className="flex sm:flex-wrap sm:justify-center gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {screens.map((screen, i) => {
               const Icon = screen.icon;
               return (
@@ -191,7 +191,7 @@ export default function IDEInterface() {
                   onClick={() => setActiveTab(i)}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${activeTab === i
+                  className={`flex shrink-0 snap-start items-center gap-2 px-3.5 sm:px-4 py-2.5 min-h-[44px] rounded-xl text-sm font-medium transition-all duration-200 ${activeTab === i
                     ? "bg-purple-600 text-white glow-purple-sm"
                     : "bg-white/[0.04] text-white/50 hover:text-white/80 border border-white/[0.06] hover:border-white/[0.12]"
                     }`}
@@ -226,28 +226,31 @@ export default function IDEInterface() {
               <div className="ide-dot bg-[#FF5F57]" />
               <div className="ide-dot bg-[#FFBD2E]" />
               <div className="ide-dot bg-[#28CA41]" />
-              <div className="flex-1 flex items-center gap-2 ml-3">
+              <div className="hidden md:flex flex-1 flex-wrap items-center gap-1 min-w-0 ml-2 sm:ml-3">
                 {screens.map((s, i) => {
                   const Icon = s.icon;
                   return (
                     <button
                       key={s.id}
                       onClick={() => setActiveTab(i)}
-                      className={`flex items-center gap-1.5 px-3 py-1 rounded-t-md text-[11px] transition-colors ${activeTab === i
+                      className={`flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-t-md text-[10px] sm:text-[11px] transition-colors shrink-0 ${activeTab === i
                         ? "bg-[#1a1a2e] text-white/80 border-t border-l border-r border-white/[0.07]"
                         : "text-white/30 hover:text-white/50"
                         }`}
                     >
-                      <Icon className="w-3 h-3" />
-                      {s.label}
+                      <Icon className="w-3 h-3 shrink-0" />
+                      <span className="truncate max-w-[5.5rem] sm:max-w-none">{s.label}</span>
                     </button>
                   );
                 })}
               </div>
+              <span className="md:hidden flex-1 text-center text-[11px] text-white/40 font-medium truncate px-2">
+                {screens[activeTab].label}
+              </span>
             </div>
 
             {/* Content */}
-            <div className="h-[400px] overflow-hidden">
+            <div className="h-[min(22rem,78svh)] sm:h-[400px] min-h-[240px] overflow-hidden">
               <motion.div
                 key={activeTab}
                 initial={{ opacity: 0, x: 10 }}
@@ -260,15 +263,15 @@ export default function IDEInterface() {
             </div>
 
             {/* Status bar */}
-            <div className="flex items-center justify-between px-4 py-1.5 bg-purple-900/15 border-t border-white/[0.04] text-[10px] font-code">
-              <div className="flex items-center gap-3 text-white/25">
+            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-3 sm:px-4 py-1.5 bg-purple-900/15 border-t border-white/[0.04] text-[9px] sm:text-[10px] font-code">
+              <div className="flex flex-wrap items-center gap-x-2 sm:gap-3 text-white/25">
                 <span>TypeScript</span>
-                <span>UTF-8</span>
+                <span className="hidden sm:inline">UTF-8</span>
                 <span>LF</span>
               </div>
-              <div className="flex items-center gap-1.5 text-purple-400/70">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                Llama-3.1-8B · Local
+              <div className="flex items-center gap-1.5 text-purple-400/70 min-w-0">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse shrink-0" />
+                <span className="truncate">Llama-3.1-8B · Local</span>
               </div>
             </div>
           </motion.div>
