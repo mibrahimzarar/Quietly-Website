@@ -376,3 +376,66 @@ html {
 .glow-purple-premium {
   box-shadow: 0 0 15px rgba(124, 58, 237, 0.4), 0 0 30px rgba(124, 58, 237, 0.2);
 }
+
+/* ─── Elegant Button Styles ─────────────────────────────────────────── */
+
+.btn-elegant {
+  @apply relative inline-flex items-center justify-center overflow-hidden rounded-2xl px-12 py-5 font-bold transition-all duration-500 ease-out;
+  background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 50%, #4c1d95 100%);
+  color: white;
+  box-shadow: 
+    0 10px 20px -5px rgba(124, 58, 237, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  isolation: isolate;
+}
+
+.btn-elegant::before {
+  content: '';
+  @apply absolute inset-0 opacity-0 transition-opacity duration-500 z-0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+}
+
+.btn-elegant:hover {
+  @apply -translate-y-1;
+  box-shadow: 
+    0 20px 40px -10px rgba(124, 58, 237, 0.6),
+    0 0 30px rgba(124, 58, 237, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.btn-elegant:hover::before {
+  @apply opacity-100;
+}
+
+/* Premium Shimmer Effect */
+.btn-elegant::after {
+  content: "";
+  @apply absolute z-10;
+  top: -150%;
+  left: -150%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.1) 48%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.1) 52%,
+    transparent 55%
+  );
+  transform: rotate(35deg);
+  animation: elegant-shimmer 6s infinite ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes elegant-shimmer {
+  0% { transform: translate(-30%, -30%) rotate(35deg); }
+  20%, 100% { transform: translate(30%, 30%) rotate(35deg); }
+}
+
+/* Mobile tactility */
+@media (max-width: 640px) {
+  .btn-elegant {
+    @apply py-4 px-8 text-base;
+  }
+}
