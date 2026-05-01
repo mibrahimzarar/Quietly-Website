@@ -16,16 +16,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const included = [
-  "Full offline AI code completion",
+  "Full offline AI code",
   "Local chat with AI models",
   "Syntax highlighting for 50+ languages",
   "Integrated terminal & file explorer",
   "Zero telemetry — no data leaves your machine",
   "All future updates included",
-  "Priority model optimization",
   "Advanced AI context (full project awareness)",
   "Multi-file refactoring with AI",
-  "Custom model fine-tuning support",
 ];
 
 const CHECKOUT_URL = "https://quietlycode.lemonsqueezy.com/checkout/buy/2c9d6e80-91a5-4b8b-962b-e8447b56545e";
@@ -210,22 +208,7 @@ export default function PricingPage() {
                 <div className="text-xs text-white/40">All AI runs locally</div>
               </div>
             </div>
-            <div className="hidden sm:block w-px h-10 bg-white/[0.1]" />
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-purple-500/15 flex items-center justify-center">
-                <WifiOff className="w-4 h-4 text-purple-400" />
-              </div>
-              <div>
-                <div className="text-sm font-medium text-white/75">No Internet Required</div>
-                <div className="text-xs text-white/40">Works completely offline</div>
-              </div>
-            </div>
-            <div className="hidden sm:block w-px h-10 bg-white/[0.1]" />
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-lg bg-purple-500/15 flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-purple-400" />
-              </div>
-            </div>
+
           </div>
         </motion.div>
       </section>

@@ -85,18 +85,20 @@ function useGitHubRelease() {
         const urls: Record<string, string> = {};
         for (const asset of release.assets || []) {
           const name: string = asset.name;
-          const url: string = asset.browser_download_url;
+          const id: number = asset.id;
+          // Proxy the download through our API to handle private repo access
+          const proxyUrl = `/api/download?id=${id}&name=${encodeURIComponent(name)}`;
 
           if (name.endsWith(".exe")) {
-            urls.winX64 = url;
+            urls.winX64 = proxyUrl;
           } else if (name.endsWith(".dmg")) {
-            urls.macUniversal = url;
+            urls.macUniversal = proxyUrl;
           } else if (name.endsWith(".AppImage")) {
-            urls.linuxAppImage = url;
+            urls.linuxAppImage = proxyUrl;
           } else if (name.endsWith(".deb")) {
-            urls.linuxDeb = url;
+            urls.linuxDeb = proxyUrl;
           } else if (name.endsWith(".rpm")) {
-            urls.linuxRpm = url;
+            urls.linuxRpm = proxyUrl;
           }
         }
 

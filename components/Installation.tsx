@@ -32,7 +32,7 @@ const steps = [
     number: "04",
     icon: Rocket,
     title: "Start Coding with AI",
-    description: "Launch Quietly and start your first AI-assisted coding session. Fully offline from day one.",
+    description: "Launch Quietly and start your first session. Once setup is complete, you can disconnect entirely—your creative process remains strictly offline.",
     code: "Quietly.exe",
     codeLabel: "Ready",
   },
@@ -64,7 +64,7 @@ export default function Installation() {
             <span className="gradient-text">minutes.</span>
           </h2>
           <p className="text-white/50 text-lg max-w-xl mx-auto">
-            Simple four-step installation. No accounts. No API keys. No cloud setup.
+            Simple four-step installation. Once setup is done, your AI experience is 100% air-gapped and independent. No accounts or API keys required.
           </p>
         </motion.div>
 
@@ -143,7 +143,7 @@ export default function Installation() {
           transition={{ delay: 0.3 }}
           className="text-center mt-12"
         >
-          <p className="text-white/30 text-xs">Free to use · Windows · macOS · Linux · No signup required</p>
+          <p className="text-white/30 text-xs">Windows · macOS · Linux · No signup required</p>
         </motion.div>
       </div>
     </section>

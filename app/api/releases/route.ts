@@ -4,6 +4,7 @@ const GH_REPO = "mibrahimzarar/Quietly";
 const GH_TOKEN = process.env.GH_RELEASES_TOKEN;
 
 interface GithubReleaseAsset {
+  id: number;
   name: string;
   browser_download_url: string;
   size: number;
@@ -68,6 +69,7 @@ export async function GET() {
     // Only return what the frontend needs
     const assets = (release.assets || []).map(
       (a) => ({
+        id: a.id,
         name: a.name,
         browser_download_url: a.browser_download_url,
         size: a.size,

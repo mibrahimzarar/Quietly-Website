@@ -43,12 +43,12 @@ const screens = [
     id: "chat",
     label: "AI Chat",
     icon: MessageSquare,
-    description: "Conversational AI assistant that understands your codebase and runs entirely offline.",
+    description: "Conversational AI assistant that understands your codebase and runs entirely offline after a one-time setup.",
     content: (
       <div className="flex flex-col h-full p-4 space-y-3">
         <div className="bg-white/[0.04] rounded-xl p-3 text-xs text-white/60 max-w-[80%]">
           <div className="text-purple-400 font-semibold text-[10px] mb-1">AI Assistant</div>
-          Hello! I&apos;m your local AI assistant. All processing happens on your machine — no internet needed.
+          Hello! I&apos;m your local AI assistant. Once our initial setup is done, all processing happens on your machine — no internet needed.
         </div>
         <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-3 text-xs text-white/70 ml-auto max-w-[80%]">
           <div className="text-white/40 text-[10px] mb-1">You</div>

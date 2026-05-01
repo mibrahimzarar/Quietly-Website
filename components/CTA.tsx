@@ -57,7 +57,7 @@ export default function CTA() {
           </h2>
 
           <p className="text-xl text-white/50 mb-12 max-w-2xl mx-auto leading-relaxed">
-            Join community who choose privacy and control over convenience. Your AI pair-programmer & buddy running entirely on your machine.
+            Join the community that prioritizes privacy over convenience. Once the setup is complete, Quietly runs entirely on your machine with no internet connection required.
           </p>
 
           {/* Buttons */}
@@ -81,13 +81,12 @@ export default function CTA() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+            className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 mb-8"
           >
             {[
               "100% Offline",
               "No Telemetry",
               "Local AI Models",
-              "Free Forever",
             ].map((feature) => (
               <div
                 key={feature}

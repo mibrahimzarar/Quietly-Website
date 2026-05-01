@@ -7,7 +7,7 @@ const points = [
   {
     icon: WifiOff,
     title: "100% Offline Operation",
-    description: "Every feature works without an internet connection. Disconnect and code freely.",
+    description: "Once setup is complete, every feature works without an internet connection. Disconnect and code freely.",
   },
   {
     icon: Eye,
@@ -156,12 +156,12 @@ export default function Privacy() {
                 <Shield className="w-5 h-5 text-purple-400" />
                 <div>
                   <div className="text-sm font-semibold text-white">Privacy Guaranteed: Your code never leaves your machine.</div>
-                  <div className="text-xs text-white/40">Open source verifiable · No accounts required · No internet needed</div>
+                  <div className="text-xs text-white/40">Open source verifiable · No accounts required · Offline after setup</div>
                 </div>
               </div>
               <div className="inline-flex items-center gap-2 text-xs text-white/25">
                 <WifiOff className="w-3 h-3" />
-                <span>Works 100% offline — ideal for companies with sensitive codebases</span>
+                <span>Works 100% offline after setup — ideal for companies with sensitive codebases</span>
               </div>
             </motion.div>
           </div>
