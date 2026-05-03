@@ -1,39 +1,43 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Settings, Brain, Rocket, ArrowRight } from "lucide-react";
+import { Download, CloudDownload, Layers, Rocket, ArrowRight } from "lucide-react";
 
 const steps = [
   {
     number: "01",
     icon: Download,
-    title: "Download Installer",
-    description: "Grab the installer for your OS — Windows .exe, macOS .dmg, or Linux AppImage. One file, no prerequisites.",
+    title: "Install Quietly",
+    description:
+      "Download and run the installer for your OS — Windows .exe, macOS .dmg, or Linux AppImage. One file, no extra prerequisites.",
     code: "Quietly-Setup.exe / .dmg / .AppImage",
     codeLabel: "~180 MB",
   },
   {
     number: "02",
-    icon: Settings,
-    title: "Choose AI Backend",
-    description: "Select your preferred inference backend — Llama.cpp for speed or AirLLM for memory-efficient inference.",
-    code: "llama.cpp | AirLLM",
-    codeLabel: "Backend",
+    icon: CloudDownload,
+    title: "Auto-download Llama server",
+    description:
+      "Inside the app, press Auto download to fetch the Llama server files Quietly needs. That pulls the runtime so you are not hunting for binaries by hand.",
+    code: "Auto download",
+    codeLabel: "Llama server",
   },
   {
     number: "03",
-    icon: Brain,
-    title: "Download Your Model",
-    description: "Pick and download any GGUF-compatible model. We recommend Llama 3.1 8B or Code Llama for coding.",
-    code: "llama-3.1-8b-instruct.gguf",
-    codeLabel: "~4.7 GB",
+    icon: Layers,
+    title: "Pick a backend & download a model",
+    description:
+      "Choose Llama.cpp or AirLLM, select a model to download, and let it finish. For coding, Llama 3.1 8B or Code Llama in GGUF form are solid defaults.",
+    code: "Llama.cpp | AirLLM",
+    codeLabel: "Model",
   },
   {
     number: "04",
     icon: Rocket,
-    title: "Start Coding with AI",
-    description: "Launch Quietly and start your first session. Once setup is complete, you can disconnect entirely—your creative process remains strictly offline.",
-    code: "Quietly.exe",
+    title: "Quietly is ready",
+    description:
+      "After the model download completes, the app is fully working — local, private, and usable completely offline. Start a session whenever you like.",
+    code: "Offline · no API keys",
     codeLabel: "Ready",
   },
 ];
@@ -64,7 +68,7 @@ export default function Installation() {
             <span className="gradient-text">minutes.</span>
           </h2>
           <p className="text-white/50 text-lg max-w-xl mx-auto">
-            Simple four-step installation. Once setup is done, your AI experience is 100% air-gapped and independent. No accounts or API keys required.
+            Install the app, auto-download the Llama server files, then choose Llama.cpp or AirLLM and download a model. After that, Quietly runs fully offline — no accounts or API keys.
           </p>
         </motion.div>
 

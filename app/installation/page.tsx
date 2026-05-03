@@ -7,7 +7,7 @@ import Installation from "@/components/Installation";
 export const metadata: Metadata = {
   title: "Installation — Quietly",
   description:
-    "Get Quietly running in four steps: download the installer, choose your AI backend, add a GGUF model, and start coding offline.",
+    "Install Quietly, use Auto download for Llama server files, pick Llama.cpp or AirLLM and download a model — then work fully offline.",
 };
 
 export default function InstallationPage() {
