@@ -21,6 +21,7 @@ export function GET() {
     { path: "", changefreq: "weekly", priority: "1.0" },
     { path: "/pricing", changefreq: "weekly", priority: "0.9" },
     { path: "/download", changefreq: "weekly", priority: "0.9" },
+    { path: "/installation", changefreq: "weekly", priority: "0.85" },
     { path: "/privacy", changefreq: "yearly", priority: "0.3" },
     { path: "/terms", changefreq: "yearly", priority: "0.3" },
   ];
