@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import { Download, Play, Shield, Wifi } from "lucide-react";
 import Link from "next/link";
 
+import { useGitHubRelease } from "@/hooks/useGitHubRelease";
+
 function ParticleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -247,6 +249,7 @@ function useHeroOS() {
 
 export default function Hero() {
   const downloadLabel = useHeroOS();
+  const { version } = useGitHubRelease();
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center pt-28 pb-24 overflow-hidden">
       {/* Backgrounds */}
@@ -262,11 +265,21 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/20 bg-purple-500/5 mb-8"
+          className="inline-flex max-w-[min(100%,28rem)] flex-wrap items-center justify-center gap-x-2 gap-y-1.5 px-4 py-2 rounded-full border border-purple-500/20 bg-purple-500/5 mb-8"
         >
-          <Shield className="w-3 h-3 text-purple-400" />
-          <span className="text-xs text-purple-300 font-medium tracking-wide">Your Code & Chat never leaves your machine</span>
-          <Wifi className="w-3 h-3 text-white/20" style={{ textDecoration: "line-through" }} />
+          <Shield className="w-3 h-3 text-purple-400 shrink-0" aria-hidden />
+          <span className="text-xs text-purple-300 font-medium tracking-wide text-center sm:text-left">
+            Your Code & Chat never leaves your machine
+          </span>
+          {version ? (
+            <>
+              <span className="hidden sm:inline h-3 w-px bg-white/15 shrink-0" aria-hidden />
+              <span className="rounded-md bg-purple-500/15 px-2 py-0.5 text-[10px] font-mono text-purple-200/95 border border-purple-500/25 tracking-tight tabular-nums">
+                {version}
+              </span>
+            </>
+          ) : null}
+          <Wifi className="w-3 h-3 text-white/20 shrink-0" style={{ textDecoration: "line-through" }} aria-hidden />
         </motion.div>
 
         {/* Headline */}

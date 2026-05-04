@@ -15,6 +15,8 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+import { useGitHubRelease } from "@/hooks/useGitHubRelease";
+
 const included = [
   "Full offline AI code",
   "Local chat with AI models",
@@ -29,6 +31,8 @@ const included = [
 const CHECKOUT_URL = "https://quietlycode.lemonsqueezy.com/checkout/buy/2c9d6e80-91a5-4b8b-962b-e8447b56545e";
 
 export default function PricingPage() {
+  const { version } = useGitHubRelease();
+
   return (
     <main className="relative min-h-screen bg-[#05050a] text-white overflow-hidden">
       {/* Backgrounds */}
@@ -72,11 +76,25 @@ export default function PricingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 mb-6">
-            <Crown className="w-3 h-3 text-purple-400" />
-            <span className="text-xs text-purple-300 font-medium">
-              One-time purchase · No subscription
-            </span>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10">
+              <Crown className="w-3 h-3 text-purple-400 shrink-0" />
+              <span className="text-xs text-purple-300 font-medium">
+                One-time purchase · No subscription
+              </span>
+            </div>
+            {version ? (
+              <div
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.04]"
+                title="Matches the build on the Download page"
+              >
+                <span className="text-[10px] uppercase tracking-[0.12em] text-white/40 font-semibold">
+                  Latest
+                </span>
+                <span className="h-3 w-px bg-white/15" aria-hidden />
+                <span className="text-xs font-mono text-purple-300/90 tracking-tight">{version}</span>
+              </div>
+            ) : null}
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-4">
